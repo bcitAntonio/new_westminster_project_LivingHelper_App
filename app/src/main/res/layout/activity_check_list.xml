@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CheckList">
+
+    <CheckBox
+        android:id="@+id/skytrain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sky Train"
+        app:layout_constraintBottom_toTopOf="@+id/contraint1"
+        app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
+
+    <CheckBox
+        android:id="@+id/busStop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bus Stop"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="125dp"
+        app:layout_constraintBottom_toTopOf="@+id/contraint2"
+        app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
+
+    <CheckBox
+        android:id="@+id/mall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Mall"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="191dp"
+        app:layout_constraintBottom_toTopOf="@+id/contraint3"
+        app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
+
+    <CheckBox
+        android:id="@+id/fitnessCenter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Fitness Center"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="248dp"
+        app:layout_constraintBottom_toTopOf="@+id/contraint4"
+        app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
+
+    <CheckBox
+        android:id="@+id/park"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Park"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="306dp"
+        app:layout_constraintBottom_toTopOf="@+id/contraint5"
+        app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
+
+    <CheckBox
+        android:id="@+id/food"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Food"
+        tools:layout_editor_absoluteX="46dp"
+        tools:layout_editor_absoluteY="359dp"
+        app:layout_constraintBottom_toTopOf="@+id/contraint6"
+        app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
+
+    <Button
+        android:id="@+id/search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:onClick="search_map"
+        android:text="Search"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/contraint1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="98dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/verticalConstraint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="44dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/contraint2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="156dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/contraint3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="223dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/contraint4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="278dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/contraint5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="337dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/contraint6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="397dp" />
+
+
+</android.support.constraint.ConstraintLayout>
