@@ -11,6 +11,8 @@
         android:id="@+id/skytrain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:clickable="true"
+        android:duplicateParentState="false"
         android:text="Sky Trains"
         app:layout_constraintBottom_toTopOf="@+id/contraint1"
         app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />

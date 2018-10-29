@@ -7,8 +7,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
 
 public class MainActivity extends AppCompatActivity {
+    CheckBox skyTrainBox;
+    CheckBox busStopsBox;
+    CheckBox mallsBox;
+    CheckBox careHomesBox;
+    CheckBox parksBox;
+    CheckBox playgroundsBox;
+    CheckBox dogAreaBox;
+    CheckBox schoolsBox;
+    CheckBox hospitalsBox;
+
 
     @NonNull
     private final static String TAG = MainActivity.class.getName();
@@ -17,15 +28,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        skyTrainBox = findViewById(R.id.skytrain);
+        busStopsBox = findViewById(R.id.busStop);
+        mallsBox = findViewById(R.id.mall);
+        careHomesBox = findViewById(R.id.careHomes);
+        parksBox = findViewById(R.id.park);
+        playgroundsBox = findViewById(R.id.playground);
+        dogAreaBox = findViewById(R.id.dogArea);
+        schoolsBox = findViewById(R.id.school);
+        hospitalsBox = findViewById(R.id.hospital);
     }
 
 
     public void home_search(final @NonNull View view) {
         Log.i(TAG, "go button Pressed");
+
+        if(skyTrainBox.isChecked()){
+
+        }
+
         final Intent intent;
-        intent = new Intent(this,CheckList.class);
+        intent = new Intent(this, CheckList.class);
         startActivity(intent);
     }
-}
 
+}
 
