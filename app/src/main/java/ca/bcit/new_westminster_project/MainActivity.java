@@ -52,8 +52,35 @@ public class MainActivity extends AppCompatActivity {
 
     public void home_search(final @NonNull View view) {
         Log.i(TAG, "go button Pressed");
-        
-
+      /**
+        if (skyTrainBox.isChecked()) {
+            skyTrainChecked = true;
+        }
+        if (busStopsBox.isChecked()) {
+            busStopsChecked = true;
+        }
+        if (mallsBox.isChecked()) {
+            mallsChecked = true;
+        }
+        if (careHomesBox.isChecked()) {
+            careHomesChecked = true;
+        }
+        if (parksBox.isChecked()) {
+            parksChecked = true;
+        }
+        if (playgroundsBox.isChecked()) {
+            playgroundsChecked = true;
+        }
+        if (dogAreaBox.isChecked()) {
+            dogAreaChecked = true;
+        }
+        if (schoolsBox.isChecked()) {
+            schoolsChecked = true;
+        }
+        if (hospitalsBox.isChecked()) {
+            hospitalsChecked = true;
+        }
+**/ 
         final Intent intent;
         intent = new Intent(this, CheckList.class);
         startActivity(intent);
