@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void home_search(final @NonNull View view) {
         Log.i(TAG, "go button Pressed");
-
+/**
         if (skyTrainBox.isChecked()) {
             skyTrainChecked = true;
         }
@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
         if (hospitalsBox.isChecked()) {
             hospitalsChecked = true;
         }
-
+**/
         final Intent intent;
         intent = new Intent(this, CheckList.class);
         startActivity(intent);

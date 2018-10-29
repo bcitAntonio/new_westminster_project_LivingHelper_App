@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Bus Stops"
-        app:layout_constraintBottom_toTopOf="@+id/contraint2"
+        app:layout_constraintBottom_toTopOf="@+id/constraint2"
         app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
 
     <CheckBox
@@ -30,7 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Malls"
-        app:layout_constraintBottom_toTopOf="@+id/contraint3"
+        app:layout_constraintBottom_toTopOf="@+id/constraint3"
         app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
 
     <CheckBox
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Care Homes"
-        app:layout_constraintBottom_toTopOf="@+id/contraint4"
+        app:layout_constraintBottom_toTopOf="@+id/constraint4"
         app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
 
     <CheckBox
@@ -46,7 +46,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Parks"
-        app:layout_constraintBottom_toTopOf="@+id/contraint5"
+        app:layout_constraintBottom_toTopOf="@+id/constraint5"
         app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
 
     <CheckBox
@@ -54,7 +54,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Playgrounds"
-        app:layout_constraintBottom_toTopOf="@+id/contraint6"
+        app:layout_constraintBottom_toTopOf="@+id/constraint6"
         app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
 
     <CheckBox
@@ -62,7 +62,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Off Leash Dog Areas"
-        app:layout_constraintBottom_toTopOf="@+id/contraint7"
+        app:layout_constraintBottom_toTopOf="@+id/constraint7"
         app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
 
     <CheckBox
@@ -70,7 +70,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Schools"
-        app:layout_constraintBottom_toTopOf="@+id/contraint8"
+        app:layout_constraintBottom_toTopOf="@+id/constraint8"
         app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
 
     <CheckBox
@@ -78,7 +78,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hospital Buildings"
-        app:layout_constraintBottom_toTopOf="@+id/contraint9"
+        app:layout_constraintBottom_toTopOf="@+id/constraint9"
         app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
 
     <Button
@@ -99,7 +99,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_end="417dp" />
+        app:layout_constraintGuide_end="620dp" />
 
     <android.support.constraint.Guideline
         android:id="@+id/verticalConstraint"
@@ -109,60 +109,60 @@
         app:layout_constraintGuide_begin="44dp" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/contraint2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="132dp" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/contraint3"
+        android:id="@+id/constraint2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="165dp" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/contraint4"
+        android:id="@+id/constraint3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="206dp" />
+        app:layout_constraintGuide_begin="229dp" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/contraint5"
+        android:id="@+id/constraint4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="243dp" />
+        app:layout_constraintGuide_begin="291dp" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/contraint6"
+        android:id="@+id/constraint5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="281dp" />
+        app:layout_constraintGuide_begin="354dp" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/contraint7"
+        android:id="@+id/constraint6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="314dp" />
+        app:layout_constraintGuide_begin="414dp" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/contraint8"
+        android:id="@+id/constraint7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="351dp" />
+        app:layout_constraintGuide_begin="475dp" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/contraint9"
+        android:id="@+id/constraint8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="391dp" />
+        app:layout_constraintGuide_begin="545dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/constraint9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="604dp" />
 
 
 </android.support.constraint.ConstraintLayout>
