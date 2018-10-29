@@ -1,5 +1,6 @@
 package ca.bcit.new_westminster_project;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -9,6 +10,12 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.koushikdutta.async.future.FutureCallback;
+import com.koushikdutta.ion.Ion;
+
+import ca.bcit.new_westminster_project.data.Skytrain;
 
 public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
 
@@ -19,6 +26,8 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_search);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        downloadData("http://opendata.newwestcity.ca/downloads/skytrain-stations-points/SKYTRAIN_STATIONS_PTS.json");
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -37,11 +46,67 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+    }
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    private void addPoint (final double latitude, final double longitude, final String title)
+    {
+        LatLng location = new LatLng(latitude, longitude);
+        mMap.addMarker(new MarkerOptions().position(location).title(title));
+        float zoomLevel = 12.5f; //This goes up to 21
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
+    }
+
+    private void downloadData(@NonNull final String url)
+    {
+        Ion.with(this)
+                .load(url)
+                .asJsonObject()
+                .setCallback(new FutureCallback<JsonObject>()
+                {
+                    @Override
+                    public void onCompleted(final Exception  ex,
+                                            final JsonObject json)
+                    {
+                        if(ex != null)
+                        {
+
+                        }
+
+                        if(json != null)
+                        {
+                            parseJSON(json);
+                        }
+                    }
+                });
+    }
+
+    private void parseJSON(final JsonObject json)
+    {
+        final Gson gson;
+        final Skytrain skytrain;
+
+        gson = new Gson();
+        skytrain = gson.fromJson(json, Skytrain.class);
+        // x.clear();
+        // y.clear();
+
+        for(Skytrain.Feature feature : skytrain.getFeatures())
+        {
+            final Skytrain.Feature.Geometry geo;
+            final Skytrain.Feature.Properties properties;
+            final String     name;
+
+            geo =  feature.getGeometry();
+            properties = feature.getProperties();
+            double[] a = geo.getCoordinates();
+            String name_ = properties.getName();
+
+            double X = a[1];
+
+            addPoint( a[1],a[0],name_);
+        }
+
+
     }
 
 
