@@ -8,7 +8,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
@@ -16,10 +15,7 @@ import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
-import java.util.ArrayList;
-import java.util.Random;
-
-import ca.bcit.new_westminster_project.data.JsonFile;
+import ca.bcit.new_westminster_project.data.Skytrain;
 
 public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
 
@@ -30,12 +26,8 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_search);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        downloadData("http://opendata.newwestcity.ca/downloads/bus-stops/BUS_STOPS.json");
         downloadData("http://opendata.newwestcity.ca/downloads/skytrain-stations-points/SKYTRAIN_STATIONS_PTS.json");
-        downloadData("http://opendata.newwestcity.ca/downloads/care-homes/CARE_HOMES.json");
-        downloadData("http://opendata.newwestcity.ca/downloads/playgrounds/PLAYGROUNDS.json");
-        downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-schools/SIGNIFICANT_BLDG_SCHOOLS.json");
-        downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-hospitals/SIGNIFICANT_BLDG_HOSPITALS.json");
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -56,11 +48,10 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
     }
 
-    private void addPoint (final double latitude, final double longitude, final String title, float color)
+    private void addPoint (final double latitude, final double longitude, final String title)
     {
         LatLng location = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(location).title(title).
-                icon(BitmapDescriptorFactory.defaultMarker(color)));
+        mMap.addMarker(new MarkerOptions().position(location).title(title));
         float zoomLevel = 12.5f; //This goes up to 21
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
     }
@@ -92,42 +83,31 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
     private void parseJSON(final JsonObject json)
     {
         final Gson gson;
-        final JsonFile jsonFile;
-        float color = new Random().nextInt(360);
+        final Skytrain skytrain;
 
         gson = new Gson();
-        jsonFile = gson.fromJson(json, JsonFile.class);
+        skytrain = gson.fromJson(json, Skytrain.class);
+        // x.clear();
+        // y.clear();
 
-        for(JsonFile.Feature feature : jsonFile.getFeatures())
+        for(Skytrain.Feature feature : skytrain.getFeatures())
         {
-            final JsonFile.Feature.Properties properties;
+            final Skytrain.Feature.Geometry geo;
+            final Skytrain.Feature.Properties properties;
+            final String     name;
+
+            geo =  feature.getGeometry();
             properties = feature.getProperties();
-            String name_ = find_correct_listname(properties);
-            addPoint( Double.parseDouble(properties.getY()),Double.parseDouble(properties.getX()),name_, color);
+            double[] a = geo.getCoordinates();
+            String name_ = properties.getName();
+
+            double X = a[1];
+
+            addPoint( a[1],a[0],name_);
         }
 
-    }
-
-    public void add_list_name(ArrayList<String> list_name, JsonFile.Feature.Properties p)
-    {
-        list_name.add(p.getStopName());
-        list_name.add(p.getName());
-        list_name.add(p.getBuildingName());
-        list_name.add(p.getParkName());
 
     }
 
-    public String find_correct_listname(JsonFile.Feature.Properties p)
-    {
-        ArrayList<String> list_name = new ArrayList<String>();
-        add_list_name(list_name, p);
-
-        for(String s : list_name)
-        {
-            if(s !=  null)
-                return s;
-        }
-        return null;
-    }
 
 }
