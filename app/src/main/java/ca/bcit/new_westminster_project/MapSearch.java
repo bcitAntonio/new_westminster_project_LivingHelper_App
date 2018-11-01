@@ -8,6 +8,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
@@ -16,6 +17,10 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import ca.bcit.new_westminster_project.data.Skytrain;
+
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_MAGENTA;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_RED;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_YELLOW;
 
 public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
 
@@ -29,8 +34,7 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         downloadData("http://opendata.newwestcity.ca/downloads/skytrain-stations-points/SKYTRAIN_STATIONS_PTS.json");
         downloadData("http://opendata.newwestcity.ca/downloads/bus-stops/BUS_STOPS.json");
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
@@ -49,66 +53,58 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
     }
 
-    private void addPoint (final double latitude, final double longitude, final String title)
-    {
+    private void addPoint(final double latitude, final double longitude, final String title, final float hue) {
         LatLng location = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(location).title(title));
+        mMap.addMarker(new MarkerOptions().position(location).title(title).icon(BitmapDescriptorFactory.defaultMarker(hue)));
         float zoomLevel = 12.5f; //This goes up to 21
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
     }
 
-    private void downloadData(@NonNull final String url)
-    {
-        Ion.with(this)
-                .load(url)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>()
-                {
-                    @Override
-                    public void onCompleted(final Exception  ex,
-                                            final JsonObject json)
-                    {
-                        if(ex != null)
-                        {
+    private void downloadData(@NonNull final String url) {
+        Ion.with(this).load(url).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+            @Override
+            public void onCompleted(final Exception ex, final JsonObject json) {
+                if (ex != null) {
 
-                        }
+                }
 
-                        if(json != null)
-                        {
-                            parseJSON(json);
-                        }
-                    }
-                });
+                if (json != null) {
+                    parseJSON(json);
+                }
+            }
+        });
     }
 
-    private void parseJSON(final JsonObject json)
-    {
+    private void parseJSON(final JsonObject json) {
         final Gson gson;
         final Skytrain skytrain;
 
         gson = new Gson();
         skytrain = gson.fromJson(json, Skytrain.class);
 
-        for(Skytrain.Feature feature : skytrain.getFeatures())
-        {
+        for (Skytrain.Feature feature : skytrain.getFeatures()) {
             final Skytrain.Feature.Geometry geo;
             final Skytrain.Feature.Properties properties;
-            final String     name;
+            final String name;
+            float colour;
 
-            geo =  feature.getGeometry();
+            geo = feature.getGeometry();
             properties = feature.getProperties();
             double[] a = geo.getCoordinates();
             String name_ = "";
+            colour = HUE_RED;
 
-            if(properties.getName() != "")
+            if (properties.getName() != "") {
                 name_ = properties.getName();
-
-            if(properties.getStopName() != "")
+                colour = (HUE_MAGENTA);
+            } else if (properties.getStopName() != "") {
                 name_ = properties.getStopName();
+                colour = (HUE_YELLOW);
+            }
 
             double X = a[1];
 
-            addPoint( a[1],a[0],name_);
+            addPoint(a[1], a[0], name_, colour);
         }
 
 
