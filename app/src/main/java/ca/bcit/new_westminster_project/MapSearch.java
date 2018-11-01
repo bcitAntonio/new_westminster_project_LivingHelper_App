@@ -127,8 +127,6 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
             if(s !=  null)
                 return s;
         }
-
         return null;
     }
-
 }
