@@ -13,7 +13,7 @@ public class JsonFileTwo {
     @SerializedName("NUM_RES") private int numberOfResidents;
     @SerializedName("Ngbrhood") private String neighbourhood;
     @SerializedName("NgbrNam") private String neighbourhoodName;
-    @SerializedName("json_geometry") private String geometry;
+    @SerializedName("json_geometry") private json_geometry geometry;
 
 
     public String getType() {
@@ -88,11 +88,33 @@ public class JsonFileTwo {
         this.neighbourhoodName = neighbourhoodName;
     }
 
-    public String getGeometry() {
+    public json_geometry getGeometry() {
         return geometry;
     }
 
-    public void setGeometry(String geometry) {
+    public void setGeometry(json_geometry geometry) {
         this.geometry = geometry;
+    }
+
+    public static class json_geometry{
+
+        private String type;
+        private double[][][] coordinates;
+
+        public String getType() {
+            return type;
+        }
+
+        public void setType(String type) {
+            this.type = type;
+        }
+
+        public double[][][] getCoordinates() {
+            return coordinates;
+        }
+
+        public void setCoordinates(double[][][] coordinates) {
+            this.coordinates = coordinates;
+        }
     }
 }
