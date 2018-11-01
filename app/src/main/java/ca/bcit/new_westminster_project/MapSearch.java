@@ -125,7 +125,6 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         for(String s : list_name)
         {
             if(s !=  null)
-
                 return s;
         }
 
