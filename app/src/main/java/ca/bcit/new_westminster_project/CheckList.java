@@ -20,15 +20,15 @@ public class CheckList extends AppCompatActivity {
     CheckBox schoolsBox;
     CheckBox hospitalsBox;
 
-    boolean skyTrainChecked = false;
-    boolean busStopsChecked = false;
-    boolean mallsChecked = false;
-    boolean careHomesChecked = false;
-    boolean parksChecked = false;
-    boolean playgroundsChecked = false;
-    boolean dogAreaChecked = false;
-    boolean schoolsChecked = false;
-    boolean hospitalsChecked = false;
+    boolean skyTrainChecked;
+    boolean busStopsChecked;
+    boolean mallsChecked;
+    boolean careHomesChecked;
+    boolean parksChecked;
+    boolean playgroundsChecked;
+    boolean dogAreaChecked;
+    boolean schoolsChecked;
+    boolean hospitalsChecked;
     @NonNull
     private final static String TAG = CheckList.class.getName();
 
@@ -50,35 +50,35 @@ public class CheckList extends AppCompatActivity {
 
     public void search_map(final @NonNull View view) {
         Log.i(TAG, "go button Pressed");
-         if (skyTrainBox.isChecked()) {
-         skyTrainChecked = true;
-         }
-         if (busStopsBox.isChecked()) {
-         busStopsChecked = true;
-         }
-         if (mallsBox.isChecked()) {
-         mallsChecked = true;
-         }
-         if (careHomesBox.isChecked()) {
-         careHomesChecked = true;
-         }
-         if (parksBox.isChecked()) {
-         parksChecked = true;
-         }
-         if (playgroundsBox.isChecked()) {
-         playgroundsChecked = true;
-         }
-         if (dogAreaBox.isChecked()) {
-         dogAreaChecked = true;
-         }
-         if (schoolsBox.isChecked()) {
-         schoolsChecked = true;
-         }
-         if (hospitalsBox.isChecked()) {
-         hospitalsChecked = true;
-         }
+        if (skyTrainBox.isChecked()) {
+            skyTrainChecked = true;
+        }
+        if (busStopsBox.isChecked()) {
+            busStopsChecked = true;
+        }
+        if (mallsBox.isChecked()) {
+            mallsChecked = true;
+        }
+        if (careHomesBox.isChecked()) {
+            careHomesChecked = true;
+        }
+        if (parksBox.isChecked()) {
+            parksChecked = true;
+        }
+        if (playgroundsBox.isChecked()) {
+            playgroundsChecked = true;
+        }
+        if (dogAreaBox.isChecked()) {
+            dogAreaChecked = true;
+        }
+        if (schoolsBox.isChecked()) {
+            schoolsChecked = true;
+        }
+        if (hospitalsBox.isChecked()) {
+            hospitalsChecked = true;
+        }
         final Intent intent;
-        intent = new Intent(this,MapSearch.class);
+        intent = new Intent(this, MapSearch.class);
         startActivity(intent);
     }
 }
