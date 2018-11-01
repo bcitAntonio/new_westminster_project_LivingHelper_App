@@ -109,12 +109,15 @@ public class JsonFileTwo {
             this.type = type;
         }
 
-        public double[][][] getCoordinates() {
-            return coordinates;
+        public double[][] getCoordinates() {
+            return coordinates[0];
         }
 
-        public void setCoordinates(double[][][] coordinates) {
-            this.coordinates = coordinates;
+        public double[]  getFirstCoordinates()
+        {
+            return coordinates[0][0];
         }
     }
-}
+
+    }
+
