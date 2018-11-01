@@ -65,6 +65,7 @@ public class Skytrain
 
         public static class Properties
         {
+            @SerializedName("stop_name") private String stopName;
             @SerializedName("NAME") private String name;
             @SerializedName("Y") private String y;
             @SerializedName("X") private String x;
@@ -73,6 +74,13 @@ public class Skytrain
             @SerializedName("ADDR_ROAD") private String addressRoad;
             @SerializedName("CITY") private String city;
 
+            public String getStopName() {
+                return stopName;
+            }
+
+            public void setStopName(String stopName) {
+                this.stopName = stopName;
+            }
 
             public String getName() {
                 return name;
