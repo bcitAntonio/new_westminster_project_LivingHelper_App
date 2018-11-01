@@ -4,7 +4,7 @@ package ca.bcit.new_westminster_project.data;
 import com.google.gson.annotations.SerializedName;
 
 
-public class Skytrain
+public class JsonFile
 {
     private String name;
     private String type;
@@ -28,7 +28,7 @@ public class Skytrain
     public static class Feature
     {
         private String type;
-        private Geometry geometry;
+
         private Properties properties;
 
         public String getType()
@@ -36,43 +36,29 @@ public class Skytrain
             return type;
         }
 
-        public Geometry getGeometry()
-        {
-            return geometry;
-        }
+
 
         public Properties getProperties()
         {
             return properties;
         }
 
-        public static class Geometry
-        {
-            private String type;
-            private double[] coordinates;
 
-            public String getType()
-            {
-                return type;
-            }
-
-            public double[] getCoordinates()
-            {
-                return coordinates;
-            }
-
-        }
 
         public static class Properties
         {
-            @SerializedName("NAME") private String name;
-            @SerializedName("Y") private String y;
-            @SerializedName("X") private String x;
+            @SerializedName("stop_name") private String stopName;           //bus stop name
+            @SerializedName("NAME") private String name;                    //Skytrain name
+            @SerializedName("BLDGNAM") private String buildingName;         //care home, school, hospital name
+            @SerializedName("PARK") private String parkName;                //Playground name
+
+
+            @SerializedName("Y") private String y;                          //all y coordinate
+            @SerializedName("X") private String x;                          //all x coordinate
             @SerializedName("ID") private String id;
             @SerializedName("ADDR_NUM") private String addressNum;
             @SerializedName("ADDR_ROAD") private String addressRoad;
             @SerializedName("CITY") private String city;
-
 
             public String getName() {
                 return name;
@@ -128,6 +114,26 @@ public class Skytrain
 
             public void setCity(String city) {
                 this.city = city;
+            }
+
+            public String getStopName() { return stopName; }
+
+            public void setStopName(String stopName) { this.stopName = stopName; }
+
+            public String getBuildingName() {
+                return buildingName;
+            }
+
+            public void setBuildingName(String buildingName) {
+                this.buildingName = buildingName;
+            }
+
+            public String getParkName() {
+                return parkName;
+            }
+
+            public void setParkName(String parkName) {
+                this.parkName = parkName;
             }
         }
     }
