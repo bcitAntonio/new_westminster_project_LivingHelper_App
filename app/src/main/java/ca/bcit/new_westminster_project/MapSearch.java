@@ -27,6 +27,7 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         setContentView(R.layout.activity_map_search);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         downloadData("http://opendata.newwestcity.ca/downloads/skytrain-stations-points/SKYTRAIN_STATIONS_PTS.json");
+        downloadData("http://opendata.newwestcity.ca/downloads/bus-stops/BUS_STOPS.json");
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -87,8 +88,6 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
 
         gson = new Gson();
         skytrain = gson.fromJson(json, Skytrain.class);
-        // x.clear();
-        // y.clear();
 
         for(Skytrain.Feature feature : skytrain.getFeatures())
         {
@@ -99,7 +98,13 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
             geo =  feature.getGeometry();
             properties = feature.getProperties();
             double[] a = geo.getCoordinates();
-            String name_ = properties.getName();
+            String name_ = "";
+
+            if(properties.getName() != "")
+                name_ = properties.getName();
+
+            if(properties.getStopName() != "")
+                name_ = properties.getStopName();
 
             double X = a[1];
 
