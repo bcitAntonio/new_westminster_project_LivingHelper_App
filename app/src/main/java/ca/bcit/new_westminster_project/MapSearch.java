@@ -105,7 +105,6 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
             String name_ = find_correct_listname(properties);
             addPoint( Double.parseDouble(properties.getY()),Double.parseDouble(properties.getX()),name_, color);
         }
-
     }
 
     public void add_list_name(ArrayList<String> list_name, JsonFile.Feature.Properties p)
@@ -125,12 +124,8 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         for(String s : list_name)
         {
             if(s !=  null)
-
                 return s;
-
-
         }
-
         return null;
     }
 }
