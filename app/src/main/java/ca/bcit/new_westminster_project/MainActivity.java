@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void home_search(final @NonNull View view) {
         Log.i(TAG, "go button Pressed");
-        
+
 
         final Intent intent;
         intent = new Intent(this, CheckList.class);
