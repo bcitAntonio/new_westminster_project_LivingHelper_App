@@ -47,8 +47,8 @@ public class JsonFile
 
         public static class Properties
         {
-            @SerializedName("stop_name") private String stopName;           //bus stop name
-            @SerializedName("NAME") private String name;                    //Skytrain name
+            @SerializedName("stop_name") private String stopName;           //bus stop names
+            @SerializedName("NAME") private String name;                    //Skytrain names
             @SerializedName("BLDGNAM") private String buildingName;         //care home, school, hospital name
             @SerializedName("PARK") private String parkName;                //Playground name
 
