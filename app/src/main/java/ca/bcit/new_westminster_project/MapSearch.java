@@ -1,5 +1,7 @@
 package ca.bcit.new_westminster_project;
 
+import android.graphics.Color;
+import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -9,7 +11,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -18,6 +23,7 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import ca.bcit.new_westminster_project.data.JsonFile;
@@ -27,8 +33,9 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ClusterManager<Cluster> mClusterManager;
-    private ClusterManager<Cluster>[] managers = new ClusterManager[7];
-    private int clusterCounter = 0;
+    //private ClusterManager<Cluster>[] managers = new ClusterManager[7];
+    //private int clusterCounter = 0;
+    List<Marker> markers = new ArrayList<Marker>();
     Random r = new Random();
 
     @Override
@@ -78,7 +85,26 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
 
     private void addPoint(final double latitude, final double longitude, final String title, float color) {
         LatLng location = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(location).title(title).icon(BitmapDescriptorFactory.defaultMarker(color)));
+        Marker marker = mMap.addMarker(new MarkerOptions().position(location).title(title).icon(BitmapDescriptorFactory.defaultMarker(color)));
+        markers.add(marker);
+        float zoomLevel = 12.5f; //This goes up to 21
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
+    }
+
+    private void addPointCircle(final double latitude, final double longitude, final String title) {
+        LatLng location = new LatLng(latitude, longitude);
+        //Circle circle = mMap.addCircle(new CircleOptions().center(location).radius(500).strokeColor(Color.RED));
+        CircleOptions circle = new CircleOptions().center(location).radius(200).strokeColor(Color.RED);
+        //Circle circle = new Circle(circleOp);
+        float[] distance = new float[2];
+        for (int i = 0; i < markers.size(); i++) {
+            Location.distanceBetween(markers.get(i).getPosition().latitude, markers.get(i).getPosition().longitude, circle.getCenter().latitude, circle.getCenter().longitude, distance);
+            if( distance[0] <= circle.getRadius()  ){
+                mMap.addCircle(circle);
+            }
+        }
+
+        //mMap.addMarker(new MarkerOptions().position(location).title(title).icon(BitmapDescriptorFactory.defaultMarker(color)));
 
         float zoomLevel = 12.5f; //This goes up to 21
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
@@ -144,7 +170,7 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
             String name_ = "hello";
 
             //addCluster(a[1], a[0],name_);
-            addPoint(a[1], a[0], name_, color);
+            addPointCircle(a[1], a[0], name_);
         }
     }
 
