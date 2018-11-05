@@ -29,6 +29,14 @@ import java.util.Random;
 import ca.bcit.new_westminster_project.data.JsonFile;
 import ca.bcit.new_westminster_project.data.JsonfileTwo;
 
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_AZURE;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_BLUE;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_CYAN;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_GREEN;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_MAGENTA;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_ORANGE;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_VIOLET;
+
 public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
@@ -44,25 +52,25 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         setContentView(R.layout.activity_map_search);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         if (CheckList.busStopsBox.isChecked()) {
-            downloadData("http://opendata.newwestcity.ca/downloads/bus-stops/BUS_STOPS.json", "bus");
+            downloadData("http://opendata.newwestcity.ca/downloads/bus-stops/BUS_STOPS.json", "bus",HUE_AZURE);
         }
         if (CheckList.skyTrainBox.isChecked()){
-            downloadData("http://opendata.newwestcity.ca/downloads/skytrain-stations-points/SKYTRAIN_STATIONS_PTS.json", "skytrain");
+            downloadData("http://opendata.newwestcity.ca/downloads/skytrain-stations-points/SKYTRAIN_STATIONS_PTS.json", "skytrain",HUE_BLUE);
         }
         if (CheckList.careHomesBox.isChecked()) {
-            downloadData("http://opendata.newwestcity.ca/downloads/care-homes/CARE_HOMES.json", "careHomes");
+            downloadData("http://opendata.newwestcity.ca/downloads/care-homes/CARE_HOMES.json", "careHomes",HUE_CYAN);
         }
         if (CheckList.playgroundsBox.isChecked()) {
-            downloadData("http://opendata.newwestcity.ca/downloads/playgrounds/PLAYGROUNDS.json", "playgrounds");
+            downloadData("http://opendata.newwestcity.ca/downloads/playgrounds/PLAYGROUNDS.json", "playgrounds",HUE_GREEN);
         }
         if (CheckList.schoolsBox.isChecked()) {
-            downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-schools/SIGNIFICANT_BLDG_SCHOOLS.json", "schools");
+            downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-schools/SIGNIFICANT_BLDG_SCHOOLS.json", "schools",HUE_MAGENTA);
         }
         if (CheckList.hospitalsBox.isChecked()) {
-            downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-hospitals/SIGNIFICANT_BLDG_HOSPITALS.json", "hospitals");
+            downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-hospitals/SIGNIFICANT_BLDG_HOSPITALS.json", "hospitals",HUE_ORANGE);
         }
         if (CheckList.housingBox.isChecked()) {
-            downloadData("https://drive.google.com/uc?export=download&id=17Rk22SYqjeYQB_m7o0K5Pbj6vxDLT3xW", "housing");
+            downloadData("https://drive.google.com/uc?export=download&id=17Rk22SYqjeYQB_m7o0K5Pbj6vxDLT3xW", "housing",HUE_VIOLET);
         }
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -110,7 +118,7 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
     }
 
-    private void downloadData(@NonNull final String url, final String type) {
+    private void downloadData(@NonNull final String url, final String type, final float col) {
 
         Ion.with(this).load(url).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
@@ -123,19 +131,18 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
                     //ONLY FOR RENTAL
                     parseJSONRental(json);
                 } else if (json != null && type != "housing") {
-                    parseJSON(json);
+                    parseJSON(json,col);
                 }
             }
         });
     }
 
-    private void parseJSON(final JsonObject json) {
+    private void parseJSON(final JsonObject json,float col) {
         final Gson gson;
         final JsonFile jsonFile;
         mClusterManager = new ClusterManager<>(this, mMap);
         mMap.setOnCameraIdleListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
-        float color = 0 + r.nextFloat() * (300 - 0);
 
 
         gson = new Gson();
@@ -147,7 +154,7 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
             String name_ = find_correct_listname(properties);
 
             //addCluster(Double.parseDouble(properties.getY()), Double.parseDouble(properties.getX()),name_);
-            addPoint(Double.parseDouble(properties.getY()), Double.parseDouble(properties.getX()), name_, color);
+            addPoint(Double.parseDouble(properties.getY()), Double.parseDouble(properties.getX()), name_, col);
         }
     }
 
