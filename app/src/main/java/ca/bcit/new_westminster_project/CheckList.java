@@ -16,6 +16,7 @@ public class CheckList extends AppCompatActivity {
     CheckBox playgroundsBox;
     CheckBox schoolsBox;
     CheckBox hospitalsBox;
+    CheckBox housingBox;
 
     public static boolean skyTrainChecked;
     public static boolean busStopsChecked;
@@ -23,6 +24,7 @@ public class CheckList extends AppCompatActivity {
     public static boolean playgroundsChecked;
     public static boolean schoolsChecked;
     public static boolean hospitalsChecked;
+    public static boolean housingChecked;
     @NonNull
     private final static String TAG = CheckList.class.getName();
 
@@ -37,6 +39,7 @@ public class CheckList extends AppCompatActivity {
         playgroundsBox = findViewById(R.id.playground);
         schoolsBox = findViewById(R.id.school);
         hospitalsBox = findViewById(R.id.hospital);
+        housingBox = findViewById(R.id.housing);
     }
 
     public void search_map(final @NonNull View view) {
@@ -58,6 +61,9 @@ public class CheckList extends AppCompatActivity {
         }
         if (hospitalsBox.isChecked()) {
             hospitalsChecked = true;
+        }
+        if (housingBox.isChecked()) {
+            housingChecked = true;
         }
         final Intent intent;
         intent = new Intent(this, MapSearch.class);
