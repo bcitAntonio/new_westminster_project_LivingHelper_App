@@ -3,17 +3,23 @@ package ca.bcit.new_westminster_project;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.maps.android.clustering.ClusterManager;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+
 import java.util.ArrayList;
+import java.util.Random;
+
 import ca.bcit.new_westminster_project.data.JsonFile;
 import ca.bcit.new_westminster_project.data.JsonfileTwo;
 
@@ -21,25 +27,36 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ClusterManager<Cluster> mClusterManager;
-    private ClusterManager<Cluster> [] managers = new ClusterManager[7];
+    private ClusterManager<Cluster>[] managers = new ClusterManager[7];
     private int clusterCounter = 0;
+    Random r = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_search);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        if (CheckList.busStopsChecked) {
+            downloadData("http://opendata.newwestcity.ca/downloads/bus-stops/BUS_STOPS.json", "bus");
+        }
+        if (CheckList.skyTrainChecked) {
+            downloadData("http://opendata.newwestcity.ca/downloads/skytrain-stations-points/SKYTRAIN_STATIONS_PTS.json", "skytrain");
+        }
+        if (CheckList.careHomesChecked) {
+            downloadData("http://opendata.newwestcity.ca/downloads/care-homes/CARE_HOMES.json", "careHomes");
+        }
+        if (CheckList.playgroundsChecked) {
+            downloadData("http://opendata.newwestcity.ca/downloads/playgrounds/PLAYGROUNDS.json", "playgrounds");
+        }
+        if (CheckList.schoolsChecked) {
+            downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-schools/SIGNIFICANT_BLDG_SCHOOLS.json", "schools");
+        }
+        if (CheckList.hospitalsChecked) {
+            downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-hospitals/SIGNIFICANT_BLDG_HOSPITALS.json", "hospitals");
+        }
+       // downloadData("https://drive.google.com/uc?export=download&id=17Rk22SYqjeYQB_m7o0K5Pbj6vxDLT3xW", "housing");
 
-        //downloadData("http://opendata.newwestcity.ca/downloads/bus-stops/BUS_STOPS.json");
-        //downloadData("http://opendata.newwestcity.ca/downloads/skytrain-stations-points/SKYTRAIN_STATIONS_PTS.json");
-        //downloadData("http://opendata.newwestcity.ca/downloads/care-homes/CARE_HOMES.json");
-        //downloadData("http://opendata.newwestcity.ca/downloads/playgrounds/PLAYGROUNDS.json");
-        //downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-schools/SIGNIFICANT_BLDG_SCHOOLS.json");
-        //downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-hospitals/SIGNIFICANT_BLDG_HOSPITALS.json");
-        downloadData("https://drive.google.com/uc?export=download&id=17Rk22SYqjeYQB_m7o0K5Pbj6vxDLT3xW");
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
@@ -60,41 +77,38 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
 
     private void addPoint(final double latitude, final double longitude, final String title, float color) {
         LatLng location = new LatLng(latitude, longitude);
-       // mMap.addMarker(new MarkerOptions().position(location).title(title).
-         //       icon(BitmapDescriptorFactory.defaultMarker(color)));
+        mMap.addMarker(new MarkerOptions().position(location).title(title).icon(BitmapDescriptorFactory.defaultMarker(color)));
 
         float zoomLevel = 12.5f; //This goes up to 21
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
     }
 
-    private void downloadData(@NonNull final String url) {
+    private void downloadData(@NonNull final String url, final String type) {
 
-        Ion.with(this)
-                .load(url)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>() {
-                    @Override
-                    public void onCompleted(final Exception ex,
-                                            final JsonObject json) {
-                        if (ex != null) {
+        Ion.with(this).load(url).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+            @Override
+            public void onCompleted(final Exception ex, final JsonObject json) {
+                if (ex != null) {
 
-                        }
+                }
 
-                        if (json != null) {
-                            //ONLY FOR RENTAL
-                            parseJSONRental(json);
-                        }
-                    }
-                });
-        clusterCounter++;
+                if (json != null && type == "housing") {
+                    //ONLY FOR RENTAL
+                    parseJSONRental(json);
+                } else if (json != null && type != "housing") {
+                    parseJSON(json);
+                }
+            }
+        });
     }
 
     private void parseJSON(final JsonObject json) {
         final Gson gson;
         final JsonFile jsonFile;
-        managers[clusterCounter] = new ClusterManager<>(this, mMap);
-        mMap.setOnCameraIdleListener(managers[clusterCounter]);
-        mMap.setOnMarkerClickListener(managers[clusterCounter]);
+        mClusterManager = new ClusterManager<>(this, mMap);
+        mMap.setOnCameraIdleListener(mClusterManager);
+        mMap.setOnMarkerClickListener(mClusterManager);
+        float color = 0 + r.nextFloat() * (300 - 0);
 
 
         gson = new Gson();
@@ -105,17 +119,18 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
             properties = feature.getProperties();
             String name_ = find_correct_listname(properties);
 
-            addCluster(Double.parseDouble(properties.getY()), Double.parseDouble(properties.getX()),name_);
-           // addPoint(Double.parseDouble(properties.getY()), Double.parseDouble(properties.getX()), name_, color);
+            //addCluster(Double.parseDouble(properties.getY()), Double.parseDouble(properties.getX()),name_);
+            addPoint(Double.parseDouble(properties.getY()), Double.parseDouble(properties.getX()), name_, color);
         }
     }
 
     private void parseJSONRental(final JsonObject json) {
         final Gson gson;
         final JsonfileTwo jsonFile;
-        managers[clusterCounter] = new ClusterManager<>(this, mMap);
-        mMap.setOnCameraIdleListener(managers[clusterCounter]);
-        mMap.setOnMarkerClickListener(managers[clusterCounter]);
+        mClusterManager = new ClusterManager<>(this, mMap);
+        mMap.setOnCameraIdleListener(mClusterManager);
+        mMap.setOnMarkerClickListener(mClusterManager);
+        float color = 359;
 
 
         gson = new Gson();
@@ -127,8 +142,8 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
             double[] a = geo.getFirstCoordinates();
             String name_ = "hello";
 
-            addCluster(a[1], a[0],name_);
-            // addPoint(Double.parseDouble(properties.getY()), Double.parseDouble(properties.getX()), name_, color);
+            //addCluster(a[1], a[0],name_);
+            addPoint(a[1], a[0], name_, color);
         }
     }
 
@@ -144,15 +159,13 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         add_list_name(list_name, p);
 
         for (String s : list_name) {
-            if (s != null)
-                return s;
+            if (s != null) return s;
         }
         return null;
     }
 
 
-
-    private void addCluster(double lat, double lng,String name) {
+    private void addCluster(double lat, double lng, String name) {
         LatLng location = new LatLng(lat, lng);
         float zoomLevel = 12.5f; //This goes up to 21
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
@@ -161,8 +174,8 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
             double offset = i / 10d;
             lat = lat + offset;
             lng = lng + offset;
-            Cluster offsetItem = new Cluster(lat, lng,name);
-            managers[clusterCounter].addItem(offsetItem);
+            Cluster offsetItem = new Cluster(lat, lng, name);
+            mClusterManager.addItem(offsetItem);
         }
     }
 
