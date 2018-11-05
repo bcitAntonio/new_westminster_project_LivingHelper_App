@@ -43,25 +43,25 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_search);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        if (CheckList.busStopsChecked) {
+        if (CheckList.busStopsBox.isChecked()) {
             downloadData("http://opendata.newwestcity.ca/downloads/bus-stops/BUS_STOPS.json", "bus");
         }
-        if (CheckList.skyTrainChecked) {
+        if (CheckList.skyTrainBox.isChecked()){
             downloadData("http://opendata.newwestcity.ca/downloads/skytrain-stations-points/SKYTRAIN_STATIONS_PTS.json", "skytrain");
         }
-        if (CheckList.careHomesChecked) {
+        if (CheckList.careHomesBox.isChecked()) {
             downloadData("http://opendata.newwestcity.ca/downloads/care-homes/CARE_HOMES.json", "careHomes");
         }
-        if (CheckList.playgroundsChecked) {
+        if (CheckList.playgroundsBox.isChecked()) {
             downloadData("http://opendata.newwestcity.ca/downloads/playgrounds/PLAYGROUNDS.json", "playgrounds");
         }
-        if (CheckList.schoolsChecked) {
+        if (CheckList.schoolsBox.isChecked()) {
             downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-schools/SIGNIFICANT_BLDG_SCHOOLS.json", "schools");
         }
-        if (CheckList.hospitalsChecked) {
+        if (CheckList.hospitalsBox.isChecked()) {
             downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-hospitals/SIGNIFICANT_BLDG_HOSPITALS.json", "hospitals");
         }
-        if (CheckList.housingChecked) {
+        if (CheckList.housingBox.isChecked()) {
             downloadData("https://drive.google.com/uc?export=download&id=17Rk22SYqjeYQB_m7o0K5Pbj6vxDLT3xW", "housing");
         }
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
