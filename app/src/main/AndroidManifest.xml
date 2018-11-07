@@ -45,7 +45,8 @@
         <activity
             android:name=".MapSearch"
             android:label="@string/title_activity_map_search" />
-        <activity android:name=".Results"></activity>
+        <activity android:name=".Results" />
+        <activity android:name=".Splash_Screen"></activity>
     </application>
 
 </manifest>
