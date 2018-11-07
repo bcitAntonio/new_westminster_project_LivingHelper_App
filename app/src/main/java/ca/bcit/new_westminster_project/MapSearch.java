@@ -104,14 +104,14 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         LatLng location = new LatLng(latitude, longitude);
         //Circle circle = mMap.addCircle(new CircleOptions().center(location).radius(500).strokeColor(Color.RED));
         CircleOptions circle = new CircleOptions().center(location).radius(CheckList.radius).strokeColor(Color.RED);
-        MarkerOptions marker = new MarkerOptions().position(location).title(title).icon(BitmapDescriptorFactory.defaultMarker(color));
+        //MarkerOptions marker = new MarkerOptions().position(location).title(title).icon(BitmapDescriptorFactory.defaultMarker(color));
         //Circle circle = new Circle(circleOp);
         float[] distance = new float[2];
         for (int i = 0; i < markers.size(); i++) {
             Location.distanceBetween(markers.get(i).getPosition().latitude, markers.get(i).getPosition().longitude, latitude, longitude, distance);
             if (distance[0] <= circle.getRadius()) {
                 mMap.addCircle(circle);
-                mMap.addMarker(marker);
+                //mMap.addMarker(marker);
                 mMap.addMarker(markers.get(i));
             }
         }
@@ -128,9 +128,7 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
             @Override
             public void onCompleted(final Exception ex, final JsonObject json) {
                 if (ex != null) {
-
                 }
-
                 if (json != null && type == "housing") {
                     //ONLY FOR RENTAL
                     parseJSONRental(json, col);
@@ -168,7 +166,6 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         mClusterManager = new ClusterManager<>(this, mMap);
         mMap.setOnCameraIdleListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
-        float color = 359;
 
 
         gson = new Gson();

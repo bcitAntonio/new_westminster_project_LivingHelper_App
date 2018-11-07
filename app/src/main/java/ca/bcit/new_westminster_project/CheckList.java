@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
@@ -18,7 +19,7 @@ public class CheckList extends AppCompatActivity {
     public static CheckBox schoolsBox;
     public static CheckBox hospitalsBox;
     public static CheckBox housingBox;
-    public static int radius = 200;
+    public static int radius;
     public static EditText radiusBox;
     @NonNull
     private final static String TAG = CheckList.class.getName();
@@ -39,7 +40,12 @@ public class CheckList extends AppCompatActivity {
     }
 
     public void find_results(final @NonNull View view) {
-        radius = Integer.parseInt(radiusBox.getText().toString());
+        String radiusText = radiusBox.getText().toString();
+        if (TextUtils.isEmpty(radiusText)) {
+            radius = 200;
+        } else {
+            radius = Integer.parseInt(radiusBox.getText().toString());
+        }
         Log.i(TAG, "go button Pressed");
         final Intent intent;
         intent = new Intent(this, Results.class);
