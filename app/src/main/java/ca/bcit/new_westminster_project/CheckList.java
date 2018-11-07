@@ -10,21 +10,13 @@ import android.widget.CheckBox;
 
 public class CheckList extends AppCompatActivity {
 
-    CheckBox skyTrainBox;
-    CheckBox busStopsBox;
-    CheckBox careHomesBox;
-    CheckBox playgroundsBox;
-    CheckBox schoolsBox;
-    CheckBox hospitalsBox;
-    CheckBox housingBox;
-
-    public static boolean skyTrainChecked;
-    public static boolean busStopsChecked;
-    public static boolean careHomesChecked;
-    public static boolean playgroundsChecked;
-    public static boolean schoolsChecked;
-    public static boolean hospitalsChecked;
-    public static boolean housingChecked;
+    public static CheckBox skyTrainBox;
+    public static CheckBox busStopsBox;
+    public static CheckBox careHomesBox;
+    public static CheckBox playgroundsBox;
+    public static CheckBox schoolsBox;
+    public static CheckBox hospitalsBox;
+    public static CheckBox housingBox;
     @NonNull
     private final static String TAG = CheckList.class.getName();
 
@@ -44,27 +36,6 @@ public class CheckList extends AppCompatActivity {
 
     public void search_map(final @NonNull View view) {
         Log.i(TAG, "go button Pressed");
-        if (skyTrainBox.isChecked()) {
-            skyTrainChecked = true;
-        }
-        if (busStopsBox.isChecked()) {
-            busStopsChecked = true;
-        }
-        if (careHomesBox.isChecked()) {
-            careHomesChecked = true;
-        }
-        if (playgroundsBox.isChecked()) {
-            playgroundsChecked = true;
-        }
-        if (schoolsBox.isChecked()) {
-            schoolsChecked = true;
-        }
-        if (hospitalsBox.isChecked()) {
-            hospitalsChecked = true;
-        }
-        if (housingBox.isChecked()) {
-            housingChecked = true;
-        }
         final Intent intent;
         intent = new Intent(this, MapSearch.class);
         startActivity(intent);

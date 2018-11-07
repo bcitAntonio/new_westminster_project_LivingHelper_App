@@ -1,5 +1,7 @@
 package ca.bcit.new_westminster_project;
 
+import android.graphics.Color;
+import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -9,7 +11,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -18,17 +23,27 @@ import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import ca.bcit.new_westminster_project.data.JsonFile;
 import ca.bcit.new_westminster_project.data.JsonfileTwo;
 
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_AZURE;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_BLUE;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_CYAN;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_GREEN;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_MAGENTA;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_ORANGE;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_VIOLET;
+
 public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ClusterManager<Cluster> mClusterManager;
-    private ClusterManager<Cluster>[] managers = new ClusterManager[7];
-    private int clusterCounter = 0;
+    //private ClusterManager<Cluster>[] managers = new ClusterManager[7];
+    //private int clusterCounter = 0;
+    List<Marker> markers = new ArrayList<Marker>();
     Random r = new Random();
 
     @Override
@@ -36,26 +51,26 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_search);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        if (CheckList.busStopsChecked) {
-            downloadData("http://opendata.newwestcity.ca/downloads/bus-stops/BUS_STOPS.json", "bus");
+        if (CheckList.busStopsBox.isChecked()) {
+            downloadData("http://opendata.newwestcity.ca/downloads/bus-stops/BUS_STOPS.json", "bus",HUE_AZURE);
         }
-        if (CheckList.skyTrainChecked) {
-            downloadData("http://opendata.newwestcity.ca/downloads/skytrain-stations-points/SKYTRAIN_STATIONS_PTS.json", "skytrain");
+        if (CheckList.skyTrainBox.isChecked()){
+            downloadData("http://opendata.newwestcity.ca/downloads/skytrain-stations-points/SKYTRAIN_STATIONS_PTS.json", "skytrain",HUE_BLUE);
         }
-        if (CheckList.careHomesChecked) {
-            downloadData("http://opendata.newwestcity.ca/downloads/care-homes/CARE_HOMES.json", "careHomes");
+        if (CheckList.careHomesBox.isChecked()) {
+            downloadData("http://opendata.newwestcity.ca/downloads/care-homes/CARE_HOMES.json", "careHomes",HUE_CYAN);
         }
-        if (CheckList.playgroundsChecked) {
-            downloadData("http://opendata.newwestcity.ca/downloads/playgrounds/PLAYGROUNDS.json", "playgrounds");
+        if (CheckList.playgroundsBox.isChecked()) {
+            downloadData("http://opendata.newwestcity.ca/downloads/playgrounds/PLAYGROUNDS.json", "playgrounds",HUE_GREEN);
         }
-        if (CheckList.schoolsChecked) {
-            downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-schools/SIGNIFICANT_BLDG_SCHOOLS.json", "schools");
+        if (CheckList.schoolsBox.isChecked()) {
+            downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-schools/SIGNIFICANT_BLDG_SCHOOLS.json", "schools",HUE_MAGENTA);
         }
-        if (CheckList.hospitalsChecked) {
-            downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-hospitals/SIGNIFICANT_BLDG_HOSPITALS.json", "hospitals");
+        if (CheckList.hospitalsBox.isChecked()) {
+            downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-hospitals/SIGNIFICANT_BLDG_HOSPITALS.json", "hospitals",HUE_ORANGE);
         }
-        if (CheckList.housingChecked) {
-            downloadData("https://drive.google.com/uc?export=download&id=17Rk22SYqjeYQB_m7o0K5Pbj6vxDLT3xW", "housing");
+        if (CheckList.housingBox.isChecked()) {
+            downloadData("https://drive.google.com/uc?export=download&id=17Rk22SYqjeYQB_m7o0K5Pbj6vxDLT3xW", "housing",HUE_VIOLET);
         }
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -78,13 +93,32 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
 
     private void addPoint(final double latitude, final double longitude, final String title, float color) {
         LatLng location = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(location).title(title).icon(BitmapDescriptorFactory.defaultMarker(color)));
+        Marker marker = mMap.addMarker(new MarkerOptions().position(location).title(title).icon(BitmapDescriptorFactory.defaultMarker(color)));
+        markers.add(marker);
+        float zoomLevel = 12.5f; //This goes up to 21
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
+    }
+
+    private void addPointCircle(final double latitude, final double longitude, final String title) {
+        LatLng location = new LatLng(latitude, longitude);
+        //Circle circle = mMap.addCircle(new CircleOptions().center(location).radius(500).strokeColor(Color.RED));
+        CircleOptions circle = new CircleOptions().center(location).radius(200).strokeColor(Color.RED);
+        //Circle circle = new Circle(circleOp);
+        float[] distance = new float[2];
+        for (int i = 0; i < markers.size(); i++) {
+            Location.distanceBetween(markers.get(i).getPosition().latitude, markers.get(i).getPosition().longitude, circle.getCenter().latitude, circle.getCenter().longitude, distance);
+            if( distance[0] <= circle.getRadius()  ){
+                mMap.addCircle(circle);
+            }
+        }
+
+        //mMap.addMarker(new MarkerOptions().position(location).title(title).icon(BitmapDescriptorFactory.defaultMarker(color)));
 
         float zoomLevel = 12.5f; //This goes up to 21
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
     }
 
-    private void downloadData(@NonNull final String url, final String type) {
+    private void downloadData(@NonNull final String url, final String type, final float col) {
 
         Ion.with(this).load(url).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
             @Override
@@ -97,19 +131,18 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
                     //ONLY FOR RENTAL
                     parseJSONRental(json);
                 } else if (json != null && type != "housing") {
-                    parseJSON(json);
+                    parseJSON(json,col);
                 }
             }
         });
     }
 
-    private void parseJSON(final JsonObject json) {
+    private void parseJSON(final JsonObject json,float col) {
         final Gson gson;
         final JsonFile jsonFile;
         mClusterManager = new ClusterManager<>(this, mMap);
         mMap.setOnCameraIdleListener(mClusterManager);
         mMap.setOnMarkerClickListener(mClusterManager);
-        float color = 0 + r.nextFloat() * (300 - 0);
 
 
         gson = new Gson();
@@ -121,7 +154,7 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
             String name_ = find_correct_listname(properties);
 
             //addCluster(Double.parseDouble(properties.getY()), Double.parseDouble(properties.getX()),name_);
-            addPoint(Double.parseDouble(properties.getY()), Double.parseDouble(properties.getX()), name_, color);
+            addPoint(Double.parseDouble(properties.getY()), Double.parseDouble(properties.getX()), name_, col);
         }
     }
 
@@ -144,7 +177,7 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
             String name_ = "hello";
 
             //addCluster(a[1], a[0],name_);
-            addPoint(a[1], a[0], name_, color);
+            addPointCircle(a[1], a[0], name_);
         }
     }
 
