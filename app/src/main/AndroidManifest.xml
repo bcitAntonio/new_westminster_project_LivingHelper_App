@@ -2,10 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.bcit.new_westminster_project">
 
-    <!--<permission-->
-        <!--android:name="ca.bcit.new_westminster_project.permission.MAPS_RECEIVE"-->
-        <!--android:protectionLevel="signature" >-->
-    <!--</permission>-->
+    <!-- <permission -->
+    <!-- android:name="ca.bcit.new_westminster_project.permission.MAPS_RECEIVE" -->
+    <!-- android:protectionLevel="signature" > -->
+    <!-- </permission> -->
+
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
@@ -43,8 +44,8 @@
 
         <activity
             android:name=".MapSearch"
-            android:label="@string/title_activity_map_search"></activity>
-
+            android:label="@string/title_activity_map_search" />
+        <activity android:name=".Results"></activity>
     </application>
 
 </manifest>
