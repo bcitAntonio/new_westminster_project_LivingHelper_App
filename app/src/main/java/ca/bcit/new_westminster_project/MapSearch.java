@@ -180,9 +180,7 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
             final JsonfileTwo.Feature.Geometry geo;
             geo = feature.getGeometry();
             double[] a = geo.getFirstCoordinates();
-            //String name_ = getAddress(a[1],a[0]);
-            String name_ = "hello";
-
+            String name_ = feature.getProperties().getStreetNum() + " " + feature.getProperties().getStreetName() + ", " + feature.getProperties().getBuildingName();
             //addCluster(a[1], a[0],name_);
             addPointCircle(a[1], a[0], name_, col);
         }
@@ -220,24 +218,5 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
  }
  }
  **/
-public String getAddress(double lat, double lng) {
-    Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-    try {
-        List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-        Address obj = addresses.get(0);
-        String wholeAddress = obj.getAddressLine(0);
-        return wholeAddress;
-       // String[] separated = wholeAddress.split(", ");
-       // String str = separated[2].replace("BC ","");
-       // return separated[0]  + ", " + str;
-
-        // TennisAppActivity.showDialog(add);
-    } catch (IOException e) {
-        // TODO Auto-generated catch block
-        e.printStackTrace();
-        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-    }
-    return null;
-}
 }
 
