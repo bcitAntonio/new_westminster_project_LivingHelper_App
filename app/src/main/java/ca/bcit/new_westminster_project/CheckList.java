@@ -34,10 +34,10 @@ public class CheckList extends AppCompatActivity {
         housingBox = findViewById(R.id.housing);
     }
 
-    public void search_map(final @NonNull View view) {
+    public void find_results(final @NonNull View view) {
         Log.i(TAG, "go button Pressed");
         final Intent intent;
-        intent = new Intent(this, MapSearch.class);
+        intent = new Intent(this, Results.class);
         startActivity(intent);
     }
 }

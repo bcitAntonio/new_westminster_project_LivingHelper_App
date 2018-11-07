@@ -52,25 +52,25 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         setContentView(R.layout.activity_map_search);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         if (CheckList.busStopsBox.isChecked()) {
-            downloadData("http://opendata.newwestcity.ca/downloads/bus-stops/BUS_STOPS.json", "bus",HUE_AZURE);
+            downloadData("http://opendata.newwestcity.ca/downloads/bus-stops/BUS_STOPS.json", "bus", HUE_AZURE);
         }
-        if (CheckList.skyTrainBox.isChecked()){
-            downloadData("http://opendata.newwestcity.ca/downloads/skytrain-stations-points/SKYTRAIN_STATIONS_PTS.json", "skytrain",HUE_BLUE);
+        if (CheckList.skyTrainBox.isChecked()) {
+            downloadData("http://opendata.newwestcity.ca/downloads/skytrain-stations-points/SKYTRAIN_STATIONS_PTS.json", "skytrain", HUE_BLUE);
         }
         if (CheckList.careHomesBox.isChecked()) {
-            downloadData("http://opendata.newwestcity.ca/downloads/care-homes/CARE_HOMES.json", "careHomes",HUE_CYAN);
+            downloadData("http://opendata.newwestcity.ca/downloads/care-homes/CARE_HOMES.json", "careHomes", HUE_CYAN);
         }
         if (CheckList.playgroundsBox.isChecked()) {
-            downloadData("http://opendata.newwestcity.ca/downloads/playgrounds/PLAYGROUNDS.json", "playgrounds",HUE_GREEN);
+            downloadData("http://opendata.newwestcity.ca/downloads/playgrounds/PLAYGROUNDS.json", "playgrounds", HUE_GREEN);
         }
         if (CheckList.schoolsBox.isChecked()) {
-            downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-schools/SIGNIFICANT_BLDG_SCHOOLS.json", "schools",HUE_MAGENTA);
+            downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-schools/SIGNIFICANT_BLDG_SCHOOLS.json", "schools", HUE_MAGENTA);
         }
         if (CheckList.hospitalsBox.isChecked()) {
-            downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-hospitals/SIGNIFICANT_BLDG_HOSPITALS.json", "hospitals",HUE_ORANGE);
+            downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-hospitals/SIGNIFICANT_BLDG_HOSPITALS.json", "hospitals", HUE_ORANGE);
         }
         if (CheckList.housingBox.isChecked()) {
-            downloadData("https://drive.google.com/uc?export=download&id=17Rk22SYqjeYQB_m7o0K5Pbj6vxDLT3xW", "housing",HUE_VIOLET);
+            downloadData("https://drive.google.com/uc?export=download&id=17Rk22SYqjeYQB_m7o0K5Pbj6vxDLT3xW", "housing", HUE_VIOLET);
         }
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -99,16 +99,17 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
     }
 
-    private void addPointCircle(final double latitude, final double longitude, final String title) {
+    private void addPointCircle(final double latitude, final double longitude, final String title, float color) {
         LatLng location = new LatLng(latitude, longitude);
         //Circle circle = mMap.addCircle(new CircleOptions().center(location).radius(500).strokeColor(Color.RED));
-        CircleOptions circle = new CircleOptions().center(location).radius(200).strokeColor(Color.RED);
+        //CircleOptions circle = new CircleOptions().center(location).radius(200).strokeColor(Color.RED);
+        MarkerOptions marker = new MarkerOptions().position(location).title(title).icon(BitmapDescriptorFactory.defaultMarker(color));
         //Circle circle = new Circle(circleOp);
         float[] distance = new float[2];
         for (int i = 0; i < markers.size(); i++) {
-            Location.distanceBetween(markers.get(i).getPosition().latitude, markers.get(i).getPosition().longitude, circle.getCenter().latitude, circle.getCenter().longitude, distance);
-            if( distance[0] <= circle.getRadius()  ){
-                mMap.addCircle(circle);
+            Location.distanceBetween(markers.get(i).getPosition().latitude, markers.get(i).getPosition().longitude, latitude, longitude, distance);
+            if (distance[0] <= 200) {
+                mMap.addMarker(marker);
             }
         }
 
@@ -129,15 +130,15 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
 
                 if (json != null && type == "housing") {
                     //ONLY FOR RENTAL
-                    parseJSONRental(json);
+                    parseJSONRental(json, col);
                 } else if (json != null && type != "housing") {
-                    parseJSON(json,col);
+                    parseJSON(json, col);
                 }
             }
         });
     }
 
-    private void parseJSON(final JsonObject json,float col) {
+    private void parseJSON(final JsonObject json, float col) {
         final Gson gson;
         final JsonFile jsonFile;
         mClusterManager = new ClusterManager<>(this, mMap);
@@ -158,7 +159,7 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         }
     }
 
-    private void parseJSONRental(final JsonObject json) {
+    private void parseJSONRental(final JsonObject json, float col) {
         final Gson gson;
         final JsonfileTwo jsonFile;
         mClusterManager = new ClusterManager<>(this, mMap);
@@ -177,7 +178,7 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
             String name_ = "hello";
 
             //addCluster(a[1], a[0],name_);
-            addPointCircle(a[1], a[0], name_);
+            addPointCircle(a[1], a[0], name_, col);
         }
     }
 
@@ -198,20 +199,20 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         return null;
     }
 
-
-    private void addCluster(double lat, double lng, String name) {
-        LatLng location = new LatLng(lat, lng);
-        float zoomLevel = 12.5f; //This goes up to 21
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
-        // Add ten cluster items in close proximity, for purposes of this example.
-        for (int i = 0; i < 2; i++) {
-            double offset = i / 10d;
-            lat = lat + offset;
-            lng = lng + offset;
-            Cluster offsetItem = new Cluster(lat, lng, name);
-            mClusterManager.addItem(offsetItem);
-        }
-    }
-
+/**
+ private void addCluster(double lat, double lng, String name) {
+ LatLng location = new LatLng(lat, lng);
+ float zoomLevel = 12.5f; //This goes up to 21
+ mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
+ // Add ten cluster items in close proximity, for purposes of this example.
+ for (int i = 0; i < 2; i++) {
+ double offset = i / 10d;
+ lat = lat + offset;
+ lng = lng + offset;
+ Cluster offsetItem = new Cluster(lat, lng, name);
+ mClusterManager.addItem(offsetItem);
+ }
+ }
+ **/
 }
 
