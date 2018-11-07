@@ -8,161 +8,166 @@
 
 
     <CheckBox
+        android:id="@+id/housing"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Show Rental Housing"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.136"
+        app:layout_constraintLeft_toRightOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.777" />
+
+    <CheckBox
         android:id="@+id/skytrain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:clickable="true"
         android:duplicateParentState="false"
         android:text="Sky Trains"
-        app:layout_constraintBottom_toTopOf="@+id/contraint1"
-        app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.11"
+        app:layout_constraintLeft_toRightOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.081" />
 
     <CheckBox
         android:id="@+id/busStop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="Bus Stops"
-        app:layout_constraintBottom_toTopOf="@+id/constraint2"
-        app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.107"
+        app:layout_constraintLeft_toRightOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.17" />
 
-    <CheckBox
-        android:id="@+id/mall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Malls"
-        app:layout_constraintBottom_toTopOf="@+id/constraint3"
-        app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
 
     <CheckBox
         android:id="@+id/careHomes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="Care Homes"
-        app:layout_constraintBottom_toTopOf="@+id/constraint4"
-        app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
-
-    <CheckBox
-        android:id="@+id/park"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Parks"
-        app:layout_constraintBottom_toTopOf="@+id/constraint5"
-        app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.115"
+        app:layout_constraintLeft_toRightOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.292" />
 
     <CheckBox
         android:id="@+id/playground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="Playgrounds"
-        app:layout_constraintBottom_toTopOf="@+id/constraint6"
-        app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
-
-    <CheckBox
-        android:id="@+id/dogArea"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Off Leash Dog Areas"
-        app:layout_constraintBottom_toTopOf="@+id/constraint7"
-        app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.115"
+        app:layout_constraintLeft_toRightOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.409" />
 
     <CheckBox
         android:id="@+id/school"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="Schools"
-        app:layout_constraintBottom_toTopOf="@+id/constraint8"
-        app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.103"
+        app:layout_constraintLeft_toRightOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.53" />
 
     <CheckBox
         android:id="@+id/hospital"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:text="Hospital Buildings"
-        app:layout_constraintBottom_toTopOf="@+id/constraint9"
-        app:layout_constraintLeft_toRightOf="@+id/verticalConstraint" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.126"
+        app:layout_constraintLeft_toRightOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.648" />
 
     <Button
         android:id="@+id/search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:onClick="search_map"
+        android:onClick="find_results"
         android:text="Search"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.961" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/contraint1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_end="620dp" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/verticalConstraint"
+        android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="44dp" />
+        app:layout_constraintGuide_begin="41dp" />
 
-    <android.support.constraint.Guideline
-        android:id="@+id/constraint2"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/rentalRadius"
+        android:layout_width="256dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="165dp" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/constraint3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="229dp" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/constraint4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="291dp" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/constraint5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="354dp" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/constraint6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="414dp" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/constraint7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="475dp" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/constraint8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="545dp" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/constraint9"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="604dp" />
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:ems="10"
+        android:hint="Enter a Radius(m) [default 200]"
+        android:inputType="number"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.876" />
 
 
 </android.support.constraint.ConstraintLayout>

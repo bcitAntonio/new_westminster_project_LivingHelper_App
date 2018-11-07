@@ -36,14 +36,10 @@ public class JsonFile
             return type;
         }
 
-
-
         public Properties getProperties()
         {
             return properties;
         }
-
-
 
         public static class Properties
         {
@@ -51,8 +47,6 @@ public class JsonFile
             @SerializedName("NAME") private String name;                    //Skytrain name
             @SerializedName("BLDGNAM") private String buildingName;         //care home, school, hospital name
             @SerializedName("PARK") private String parkName;                //Playground name
-
-
             @SerializedName("Y") private String y;                          //all y coordinate
             @SerializedName("X") private String x;                          //all x coordinate
             @SerializedName("ID") private String id;

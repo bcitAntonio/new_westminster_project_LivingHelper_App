@@ -1,43 +1,84 @@
 package ca.bcit.new_westminster_project;
 
+import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Circle;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.maps.android.clustering.ClusterManager;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import ca.bcit.new_westminster_project.data.JsonFile;
+import ca.bcit.new_westminster_project.data.JsonfileTwo;
+
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_AZURE;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_BLUE;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_CYAN;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_GREEN;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_MAGENTA;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_ORANGE;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_RED;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_VIOLET;
 
 public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private ClusterManager<Cluster> mClusterManager;
+    private ClusterManager<Cluster>[] managers = new ClusterManager[7];
+    //private int clusterCounter = 0;
+    List<MarkerOptions> markers = new ArrayList<MarkerOptions>();
+    Random r = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map_search);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        downloadData("http://opendata.newwestcity.ca/downloads/bus-stops/BUS_STOPS.json");
-        downloadData("http://opendata.newwestcity.ca/downloads/skytrain-stations-points/SKYTRAIN_STATIONS_PTS.json");
-        downloadData("http://opendata.newwestcity.ca/downloads/care-homes/CARE_HOMES.json");
-        downloadData("http://opendata.newwestcity.ca/downloads/playgrounds/PLAYGROUNDS.json");
-        downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-schools/SIGNIFICANT_BLDG_SCHOOLS.json");
-        downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-hospitals/SIGNIFICANT_BLDG_HOSPITALS.json");
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        if (CheckList.busStopsBox.isChecked()) {
+            downloadData("http://opendata.newwestcity.ca/downloads/bus-stops/BUS_STOPS.json", "bus", HUE_AZURE);
+        }
+        if (CheckList.skyTrainBox.isChecked()) {
+            downloadData("http://opendata.newwestcity.ca/downloads/skytrain-stations-points/SKYTRAIN_STATIONS_PTS.json", "skytrain", HUE_BLUE);
+        }
+        if (CheckList.careHomesBox.isChecked()) {
+            downloadData("http://opendata.newwestcity.ca/downloads/care-homes/CARE_HOMES.json", "careHomes", HUE_CYAN);
+        }
+        if (CheckList.playgroundsBox.isChecked()) {
+            downloadData("http://opendata.newwestcity.ca/downloads/playgrounds/PLAYGROUNDS.json", "playgrounds", HUE_GREEN);
+        }
+        if (CheckList.schoolsBox.isChecked()) {
+            downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-schools/SIGNIFICANT_BLDG_SCHOOLS.json", "schools", HUE_MAGENTA);
+        }
+        if (CheckList.hospitalsBox.isChecked()) {
+            downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-hospitals/SIGNIFICANT_BLDG_HOSPITALS.json", "hospitals", HUE_ORANGE);
+        }
+        if (CheckList.housingBox.isChecked()) {
+            downloadData("https://drive.google.com/uc?export=download&id=17Rk22SYqjeYQB_m7o0K5Pbj6vxDLT3xW", "housing", HUE_RED);
+        }
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
 
@@ -56,81 +97,147 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         mMap = googleMap;
     }
 
-    private void addPoint (final double latitude, final double longitude, final String title, float color)
-    {
+    private void addPoint(final double latitude, final double longitude, final String title, float color) {
         LatLng location = new LatLng(latitude, longitude);
-        mMap.addMarker(new MarkerOptions().position(location).title(title).
-                icon(BitmapDescriptorFactory.defaultMarker(color)));
+        MarkerOptions marker = new MarkerOptions().position(location).title(title).icon(BitmapDescriptorFactory.defaultMarker(color));
+        markers.add(marker);
         float zoomLevel = 12.5f; //This goes up to 21
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
     }
 
-    private void downloadData(@NonNull final String url)
-    {
-        Ion.with(this)
-                .load(url)
-                .asJsonObject()
-                .setCallback(new FutureCallback<JsonObject>()
-                {
-                    @Override
-                    public void onCompleted(final Exception  ex,
-                                            final JsonObject json)
-                    {
-                        if(ex != null)
-                        {
+    private void addPointCircle(final double latitude, final double longitude, final String title, float color) {
+        LatLng location = new LatLng(latitude, longitude);
+        //Circle circle = mMap.addCircle(new CircleOptions().center(location).radius(500).strokeColor(Color.RED));
+        CircleOptions circle = new CircleOptions().center(location).radius(CheckList.radius).strokeColor(Color.RED);
+        MarkerOptions marker = new MarkerOptions().position(location).title(title).icon(BitmapDescriptorFactory.defaultMarker(color));
+        //Circle circle = new Circle(circleOp);
+        float[] distance = new float[2];
+        for (int i = 0; i < markers.size(); i++) {
+            Location.distanceBetween(markers.get(i).getPosition().latitude, markers.get(i).getPosition().longitude, latitude, longitude, distance);
+            if (distance[0] <= circle.getRadius()) {
+                mMap.addCircle(circle);
+                mMap.addMarker(marker);
+                mMap.addMarker(markers.get(i));
+            }
+        }
 
-                        }
+        //mMap.addMarker(new MarkerOptions().position(location).title(title).icon(BitmapDescriptorFactory.defaultMarker(color)));
 
-                        if(json != null)
-                        {
-                            parseJSON(json);
-                        }
-                    }
-                });
+        float zoomLevel = 12.5f; //This goes up to 21
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
     }
 
-    private void parseJSON(final JsonObject json)
-    {
+    private void downloadData(@NonNull final String url, final String type, final float col) {
+
+        Ion.with(this).load(url).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
+            @Override
+            public void onCompleted(final Exception ex, final JsonObject json) {
+                if (ex != null) {
+                }
+                if (json != null && type == "housing") {
+                    //ONLY FOR RENTAL
+                    parseJSONRental(json, col);
+                } else if (json != null && type != "housing") {
+                    parseJSON(json, col);
+                }
+            }
+        });
+    }
+
+    private void parseJSON(final JsonObject json, float col) {
         final Gson gson;
         final JsonFile jsonFile;
-        float color = new Random().nextInt(360);
+        mClusterManager = new ClusterManager<>(this, mMap);
+        mMap.setOnCameraIdleListener(mClusterManager);
+        mMap.setOnMarkerClickListener(mClusterManager);
+
 
         gson = new Gson();
         jsonFile = gson.fromJson(json, JsonFile.class);
 
-        for(JsonFile.Feature feature : jsonFile.getFeatures())
-        {
+        for (JsonFile.Feature feature : jsonFile.getFeatures()) {
             final JsonFile.Feature.Properties properties;
             properties = feature.getProperties();
             String name_ = find_correct_listname(properties);
-            addPoint( Double.parseDouble(properties.getY()),Double.parseDouble(properties.getX()),name_, color);
-        }
 
+            //addCluster(Double.parseDouble(properties.getY()), Double.parseDouble(properties.getX()),name_);
+            addPoint(Double.parseDouble(properties.getY()), Double.parseDouble(properties.getX()), name_, col);
+        }
     }
 
-    public void add_list_name(ArrayList<String> list_name, JsonFile.Feature.Properties p)
-    {
+    private void parseJSONRental(final JsonObject json, float col) {
+        final Gson gson;
+        final JsonfileTwo jsonFile;
+        mClusterManager = new ClusterManager<>(this, mMap);
+        mMap.setOnCameraIdleListener(mClusterManager);
+        mMap.setOnMarkerClickListener(mClusterManager);
+
+
+        gson = new Gson();
+        jsonFile = gson.fromJson(json, JsonfileTwo.class);
+
+        for (JsonfileTwo.Feature feature : jsonFile.getFeatures()) {
+            final JsonfileTwo.Feature.Geometry geo;
+            geo = feature.getGeometry();
+            double[] a = geo.getFirstCoordinates();
+            //String name_ = getAddress(a[1],a[0]);
+            String name_ = "hello";
+
+            //addCluster(a[1], a[0],name_);
+            addPointCircle(a[1], a[0], name_, col);
+        }
+    }
+
+    public void add_list_name(ArrayList<String> list_name, JsonFile.Feature.Properties p) {
         list_name.add(p.getStopName());
         list_name.add(p.getName());
         list_name.add(p.getBuildingName());
         list_name.add(p.getParkName());
-
     }
 
-    public String find_correct_listname(JsonFile.Feature.Properties p)
-    {
+    public String find_correct_listname(JsonFile.Feature.Properties p) {
         ArrayList<String> list_name = new ArrayList<String>();
         add_list_name(list_name, p);
 
-        for(String s : list_name)
-        {
-            if(s !=  null)
-
-                return s;
-
-
+        for (String s : list_name) {
+            if (s != null) return s;
         }
-
         return null;
     }
+
+/**
+ private void addCluster(double lat, double lng, String name) {
+ LatLng location = new LatLng(lat, lng);
+ float zoomLevel = 12.5f; //This goes up to 21
+ mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, zoomLevel));
+ // Add ten cluster items in close proximity, for purposes of this example.
+ for (int i = 0; i < 2; i++) {
+ double offset = i / 10d;
+ lat = lat + offset;
+ lng = lng + offset;
+ Cluster offsetItem = new Cluster(lat, lng, name);
+ mClusterManager.addItem(offsetItem);
+ }
+ }
+ **/
+public String getAddress(double lat, double lng) {
+    Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+    try {
+        List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+        Address obj = addresses.get(0);
+        String wholeAddress = obj.getAddressLine(0);
+        return wholeAddress;
+       // String[] separated = wholeAddress.split(", ");
+       // String str = separated[2].replace("BC ","");
+       // return separated[0]  + ", " + str;
+
+        // TennisAppActivity.showDialog(add);
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+    return null;
 }
+}
+

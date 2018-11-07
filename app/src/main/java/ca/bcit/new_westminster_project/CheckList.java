@@ -4,31 +4,23 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.EditText;
 
 public class CheckList extends AppCompatActivity {
 
-    CheckBox skyTrainBox;
-    CheckBox busStopsBox;
-    CheckBox mallsBox;
-    CheckBox careHomesBox;
-    CheckBox parksBox;
-    CheckBox playgroundsBox;
-    CheckBox dogAreaBox;
-    CheckBox schoolsBox;
-    CheckBox hospitalsBox;
-
-    boolean skyTrainChecked;
-    boolean busStopsChecked;
-    boolean mallsChecked;
-    boolean careHomesChecked;
-    boolean parksChecked;
-    boolean playgroundsChecked;
-    boolean dogAreaChecked;
-    boolean schoolsChecked;
-    boolean hospitalsChecked;
+    public static CheckBox skyTrainBox;
+    public static CheckBox busStopsBox;
+    public static CheckBox careHomesBox;
+    public static CheckBox playgroundsBox;
+    public static CheckBox schoolsBox;
+    public static CheckBox hospitalsBox;
+    public static CheckBox housingBox;
+    public static int radius;
+    public static EditText radiusBox;
     @NonNull
     private final static String TAG = CheckList.class.getName();
 
@@ -39,46 +31,24 @@ public class CheckList extends AppCompatActivity {
         setContentView(R.layout.activity_check_list);
         skyTrainBox = findViewById(R.id.skytrain);
         busStopsBox = findViewById(R.id.busStop);
-        mallsBox = findViewById(R.id.mall);
         careHomesBox = findViewById(R.id.careHomes);
-        parksBox = findViewById(R.id.park);
         playgroundsBox = findViewById(R.id.playground);
-        dogAreaBox = findViewById(R.id.dogArea);
         schoolsBox = findViewById(R.id.school);
         hospitalsBox = findViewById(R.id.hospital);
+        housingBox = findViewById(R.id.housing);
+        radiusBox = findViewById(R.id.rentalRadius);
     }
 
-    public void search_map(final @NonNull View view) {
+    public void find_results(final @NonNull View view) {
+        String radiusText = radiusBox.getText().toString();
+        if (TextUtils.isEmpty(radiusText)) {
+            radius = 200;
+        } else {
+            radius = Integer.parseInt(radiusBox.getText().toString());
+        }
         Log.i(TAG, "go button Pressed");
-        if (skyTrainBox.isChecked()) {
-            skyTrainChecked = true;
-        }
-        if (busStopsBox.isChecked()) {
-            busStopsChecked = true;
-        }
-        if (mallsBox.isChecked()) {
-            mallsChecked = true;
-        }
-        if (careHomesBox.isChecked()) {
-            careHomesChecked = true;
-        }
-        if (parksBox.isChecked()) {
-            parksChecked = true;
-        }
-        if (playgroundsBox.isChecked()) {
-            playgroundsChecked = true;
-        }
-        if (dogAreaBox.isChecked()) {
-            dogAreaChecked = true;
-        }
-        if (schoolsBox.isChecked()) {
-            schoolsChecked = true;
-        }
-        if (hospitalsBox.isChecked()) {
-            hospitalsChecked = true;
-        }
         final Intent intent;
-        intent = new Intent(this, MapSearch.class);
+        intent = new Intent(this, Results.class);
         startActivity(intent);
     }
 }
