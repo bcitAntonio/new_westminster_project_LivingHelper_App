@@ -1,10 +1,13 @@
 package ca.bcit.new_westminster_project;
 
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,8 +25,10 @@ import com.google.maps.android.clustering.ClusterManager;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 import ca.bcit.new_westminster_project.data.JsonFile;
@@ -42,7 +47,7 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private ClusterManager<Cluster> mClusterManager;
-    //private ClusterManager<Cluster>[] managers = new ClusterManager[7];
+    private ClusterManager<Cluster>[] managers = new ClusterManager[7];
     //private int clusterCounter = 0;
     List<MarkerOptions> markers = new ArrayList<MarkerOptions>();
     Random r = new Random();
@@ -104,14 +109,14 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         LatLng location = new LatLng(latitude, longitude);
         //Circle circle = mMap.addCircle(new CircleOptions().center(location).radius(500).strokeColor(Color.RED));
         CircleOptions circle = new CircleOptions().center(location).radius(CheckList.radius).strokeColor(Color.RED);
-        //MarkerOptions marker = new MarkerOptions().position(location).title(title).icon(BitmapDescriptorFactory.defaultMarker(color));
+        MarkerOptions marker = new MarkerOptions().position(location).title(title).icon(BitmapDescriptorFactory.defaultMarker(color));
         //Circle circle = new Circle(circleOp);
         float[] distance = new float[2];
         for (int i = 0; i < markers.size(); i++) {
             Location.distanceBetween(markers.get(i).getPosition().latitude, markers.get(i).getPosition().longitude, latitude, longitude, distance);
             if (distance[0] <= circle.getRadius()) {
                 mMap.addCircle(circle);
-                //mMap.addMarker(marker);
+                mMap.addMarker(marker);
                 mMap.addMarker(markers.get(i));
             }
         }
@@ -175,6 +180,7 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
             final JsonfileTwo.Feature.Geometry geo;
             geo = feature.getGeometry();
             double[] a = geo.getFirstCoordinates();
+            //String name_ = getAddress(a[1],a[0]);
             String name_ = "hello";
 
             //addCluster(a[1], a[0],name_);
@@ -214,5 +220,24 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
  }
  }
  **/
+public String getAddress(double lat, double lng) {
+    Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+    try {
+        List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+        Address obj = addresses.get(0);
+        String wholeAddress = obj.getAddressLine(0);
+        return wholeAddress;
+       // String[] separated = wholeAddress.split(", ");
+       // String str = separated[2].replace("BC ","");
+       // return separated[0]  + ", " + str;
+
+        // TennisAppActivity.showDialog(add);
+    } catch (IOException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+    }
+    return null;
+}
 }
 
