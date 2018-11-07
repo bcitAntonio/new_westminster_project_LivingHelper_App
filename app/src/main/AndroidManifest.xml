@@ -22,7 +22,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Splash_Screen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -46,7 +46,7 @@
             android:name=".MapSearch"
             android:label="@string/title_activity_map_search" />
         <activity android:name=".Results" />
-        <activity android:name=".Splash_Screen"></activity>
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>
