@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">new_westminster_project</string>
     <string name="title_activity_map_search">Map</string>
+    <string name="Skytrain">Skytrain</string>
+    <string name="Bus_Stop">Bus Stop</string>
+    <string name="Care_Homes">Care Homes</string>
+    <string name="Playgrounds">Playgrounds</string>
+    <string name="Schools">Schools</string>
+    <string name="Hospital">Hospital</string>
+    <string name="Show_Rental_Housing">Show Rental Housing</string>
+    <string name="Search">Search</string>
+    <string name="Hint">Enter a Radius(m) [default 200]</string>
+    <string name="Go_To_Map">Go To Map</string>
+    <string name="Terms">Terms of Agreements</string>
+    <string name="Agree">I Agree</string>
 </resources>
