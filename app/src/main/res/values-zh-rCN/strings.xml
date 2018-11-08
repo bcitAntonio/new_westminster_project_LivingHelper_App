@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">new_westminster_project</string>
+    <string name="app_name">寻找家</string>
     <string name="title_activity_map_search">地图</string>
     <string name="Skytrain">天空火车</string>
     <string name="Bus_Stop">巴士车站</string>
