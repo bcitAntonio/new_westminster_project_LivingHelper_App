@@ -67,9 +67,7 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         if (CheckList.hospitalsBox.isChecked()) {
             downloadData("http://opendata.newwestcity.ca/downloads/significant-buildings-hospitals/SIGNIFICANT_BLDG_HOSPITALS.json", "hospitals", HUE_ORANGE);
         }
-        if (CheckList.housingBox.isChecked()) {
             downloadData("https://drive.google.com/uc?export=download&id=17Rk22SYqjeYQB_m7o0K5Pbj6vxDLT3xW", "housing", HUE_RED);
-        }
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
