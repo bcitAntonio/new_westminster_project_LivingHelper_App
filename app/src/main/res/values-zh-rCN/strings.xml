@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">new_westminster_project</string>
+    <string name="title_activity_map_search">地图</string>
+    <string name="Skytrain">天空火车</string>
+    <string name="Bus_Stop">巴士车站</string>
+    <string name="Care_Homes">护理院</string>
+    <string name="Playgrounds">操场</string>
+    <string name="Schools">学校</string>
+    <string name="Hospital">医院</string>
+    <string name="Show_Rental_Housing">显示出租房屋</string>
+    <string name="Search">搜索</string>
+    <string name="Hint">输入半径（米）[默认为200]</string>
+    <string name="Go_To_Map">找地图</string>
+    <string name="Terms">协议条款</string>
+    <string name="Agree">我同意</string>
+</resources>

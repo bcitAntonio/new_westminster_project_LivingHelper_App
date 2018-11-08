@@ -18,7 +18,6 @@ public class CheckList extends AppCompatActivity {
     public static CheckBox playgroundsBox;
     public static CheckBox schoolsBox;
     public static CheckBox hospitalsBox;
-    public static CheckBox housingBox;
     public static int radius;
     public static EditText radiusBox;
     @NonNull
@@ -35,7 +34,6 @@ public class CheckList extends AppCompatActivity {
         playgroundsBox = findViewById(R.id.playground);
         schoolsBox = findViewById(R.id.school);
         hospitalsBox = findViewById(R.id.hospital);
-        housingBox = findViewById(R.id.housing);
         radiusBox = findViewById(R.id.rentalRadius);
     }
 
