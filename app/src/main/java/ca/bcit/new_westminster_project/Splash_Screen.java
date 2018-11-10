@@ -1,7 +1,6 @@
 package ca.bcit.new_westminster_project;
 
 import android.content.Intent;
-import android.icu.util.Measure;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,7 +8,7 @@ import android.os.Bundle;
 public class Splash_Screen extends AppCompatActivity {
 
     /** Duration of wait **/
-    private final int SPLASH_DISPLAY_LENGTH = 5000;
+    private final int SPLASH_DISPLAY_LENGTH = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
