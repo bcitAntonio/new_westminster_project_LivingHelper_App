@@ -156,7 +156,6 @@
         android:layout_marginBottom="8dp"
         android:onClick="find_results"
         android:text="@string/Search"
-        android:textColor="@color/TextColor"
         android:background="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

@@ -46,7 +46,6 @@
         android:layout_marginBottom="8dp"
         android:onClick="map_search"
         android:text="@string/Go_To_Map"
-        android:textColor="@color/TextColor"
         android:background="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
