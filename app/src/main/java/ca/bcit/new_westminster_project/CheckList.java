@@ -18,6 +18,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 import java.util.Locale;
 
 
@@ -32,6 +34,7 @@ public class CheckList extends AppCompatActivity {
     public static int radius;
     public static EditText radiusBox;
     public static Button searchButton;
+
     @NonNull
     private final static String TAG = CheckList.class.getName();
 
@@ -174,6 +177,8 @@ public class CheckList extends AppCompatActivity {
             texttoSpeech.speak(speak, texttoSpeech.QUEUE_FLUSH, null);
         }
     }
+
+
 
 
 }
