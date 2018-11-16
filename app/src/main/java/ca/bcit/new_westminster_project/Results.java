@@ -2,6 +2,7 @@ package ca.bcit.new_westminster_project;
 
 import android.content.Intent;
 import android.location.Location;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -165,6 +166,22 @@ public class Results extends AppCompatActivity {
                 }
             });
         }
+
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Do something after 5s = 5000ms
+                System.out.println(markersFinal.size());
+                addMarkerToObject(objects);
+                CustomAdapter customerAdapter = new CustomAdapter(getApplicationContext(), objects);
+                resultListView.setAdapter(customerAdapter);
+
+            }
+        }, 3000);
+
+
+
     }
 
 
@@ -174,7 +191,7 @@ public class Results extends AppCompatActivity {
     {
         objects.addAll(newObjects);
 
-        if(expectedResult == actualDownloaded) {
+        if(expected == actualDownloaded) {
             CustomAdapter customerAdapter = new CustomAdapter(getApplicationContext(), objects);
             //CustomAdapter customerAdapter1 = creatCustomAdapter(objects);
             resultListView.setAdapter(customerAdapter);
