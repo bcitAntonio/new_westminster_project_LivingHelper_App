@@ -4,4 +4,11 @@
     <color name="colorPrimaryDark">#009100</color>
     <color name="colorAccent">#D81B60</color>
     <color name="TextColor">#ffff</color>
+    <color name="azure">#007fff</color>
+    <color name="blue">#0000ff</color>
+    <color name="cyan">#00ffff</color>
+    <color name="green">#00ff00</color>
+    <color name="magenta">#ff00ff</color>
+    <color name="orange">#ffa500</color>
+    <color name="red">#ff0000</color>
 </resources>

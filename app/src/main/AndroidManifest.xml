@@ -47,6 +47,7 @@
             android:label="@string/title_activity_map_search" />
         <activity android:name=".Results" />
         <activity android:name=".MainActivity"></activity>
+        <uses-library android:name="org.apache.http.legacy" android:required="false" />
     </application>
 
 </manifest>
