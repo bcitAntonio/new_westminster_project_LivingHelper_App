@@ -1,17 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="5dip" >
 
-    <!--
-    android:background="@drawable/list_selector"
-    -->
-
-    <!--  ListRow Left sied Thumbnail image -->
     <LinearLayout
-        android:id="@+id/linearLayout_list_image"
+        android:id="@+id/linearLayoutListImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="3dip"
@@ -20,7 +16,7 @@
         >
 
         <ImageView
-            android:id="@+id/list_image"
+            android:id="@+id/listImage"
             android:layout_width="50dip"
             android:layout_height="50dip"
             android:src="@drawable/house_icon"/>
@@ -29,11 +25,11 @@
 
     <!-- Title Of Song-->
     <TextView
-        android:id="@+id/Address"
+        android:id="@+id/address"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/linearLayout_list_image"
-        android:layout_toRightOf="@+id/linearLayout_list_image"
+        android:layout_alignTop="@+id/linearLayoutListImage"
+        android:layout_toRightOf="@+id/linearLayoutListImage"
         android:layout_toLeftOf="@+id/distance"
         android:text="Rental Address Name"
         android:textColor="#040404"
@@ -41,25 +37,12 @@
         android:textSize="15dip"
         android:textStyle="bold"/>
 
-    <!-- Artist Name -->
-    <TextView
-        android:id="@+id/option_info"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/Address"
-        android:textColor="#040404"
-        android:textSize="10dip"
-        android:layout_marginTop="1dip"
-        android:layout_toRightOf="@+id/linearLayout_list_image"
-        android:text="Option Information....." />
-
-    <!-- Rightend Distance-->
     <TextView
         android:id="@+id/distance"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_alignTop="@id/Address"
+        android:layout_alignTop="@id/address"
         android:gravity="right"
         android:text="200 meter"
         android:layout_marginRight="5dip"

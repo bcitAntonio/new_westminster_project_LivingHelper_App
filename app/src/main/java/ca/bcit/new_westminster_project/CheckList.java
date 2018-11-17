@@ -119,7 +119,9 @@ public class CheckList extends AppCompatActivity {
         } else {
             Log.i(TAG, "go button Pressed");
             final Intent intent;
+
             intent = new Intent(this, Results.class);
+            intent.putExtra("radiusExtraString", radius);
             startActivity(intent);
         }
     }
@@ -178,6 +180,10 @@ public class CheckList extends AppCompatActivity {
         }
     }
 
+    public int getRadius()
+    {
+        return Integer.parseInt(radiusBox.getText().toString());
+    }
 
 
 
