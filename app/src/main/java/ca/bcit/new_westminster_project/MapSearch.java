@@ -120,5 +120,4 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
                 FinalMarkersLongitude.get(listViewClickedIndex), FinalMarkersName.get(listViewClickedIndex), HUE_GREEN );
 
     }
-
 }

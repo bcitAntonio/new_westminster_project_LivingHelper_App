@@ -26,6 +26,7 @@ import java.util.List;
 import ca.bcit.new_westminster_project.data.JsonFile;
 import ca.bcit.new_westminster_project.data.JsonfileTwo;
 import ca.bcit.new_westminster_project.data.Updater;
+import pl.droidsonroids.gif.GifImageView;
 
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_AZURE;
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_BLUE;
@@ -38,6 +39,7 @@ import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_RED;
 public class Results extends AppCompatActivity {
     private ListView resultListView;
     private String infoTitle;
+    GifImageView loading;
     List<MarkerOptions> markersCircles = new ArrayList<MarkerOptions>();
     List<MarkerOptions> markersFinal = new ArrayList<MarkerOptions>();
     List<MarkerOptions> markers = new ArrayList<MarkerOptions>();
@@ -49,6 +51,7 @@ public class Results extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
         resultListView = findViewById(R.id.resultListView);
+        loading = findViewById(R.id.loading);
 
         final List<CustomObject> objects;
         objects = new ArrayList<>();
@@ -155,15 +158,13 @@ public class Results extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Do something after 5s = 5000ms
+                loading.setVisibility(loading.GONE);
                 System.out.println(markersFinal.size() + " marker size");
                 addMarkerToObject(objects);
                 CustomAdapter customerAdapter = new CustomAdapter(getApplicationContext(), objects);
                 resultListView.setAdapter(customerAdapter);
-
             }
-        }, 5000);
-
+        }, 5000 );
 
         resultListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
