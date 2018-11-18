@@ -42,14 +42,15 @@ public class CustomAdapter extends BaseAdapter {
         if(convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.single_row_listview, null);
-            holder.textView1 = (TextView) convertView.findViewById(R.id.Address);
-            holder.textView2 = (TextView) convertView.findViewById(R.id.option_info);
+            holder.textView1 = (TextView) convertView.findViewById(R.id.address);
+            holder.textView2 = (TextView) convertView.findViewById(R.id.distance);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
         holder.textView1.setText(objects.get(position).getAddress());
-        holder.textView2.setText(objects.get(position).getInfo());
+        holder.textView2.setText(objects.get(position).getDistance());
+
         return convertView;
     }
 }
