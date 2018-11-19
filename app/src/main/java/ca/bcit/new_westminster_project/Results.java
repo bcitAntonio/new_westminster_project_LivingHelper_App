@@ -33,7 +33,7 @@ import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_GREE
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_MAGENTA;
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_ORANGE;
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_RED;
-import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_YELLOW;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_VIOLET;
 
 public class Results extends AppCompatActivity {
     private ListView resultListView;
@@ -103,7 +103,7 @@ public class Results extends AppCompatActivity {
 
         if (CheckList.skyTrainBox.isChecked()) {
             setInfoTitle("SkyTrain: ");
-            downloadData("http://opendata.newwestcity.ca/downloads/skytrain-stations-points/SKYTRAIN_STATIONS_PTS.json", "bus", HUE_YELLOW, new Updater() {
+            downloadData("http://opendata.newwestcity.ca/downloads/skytrain-stations-points/SKYTRAIN_STATIONS_PTS.json", "bus", HUE_VIOLET, new Updater() {
                 public void update(List<CustomObject> newObjects) {
                     actualDownloaded++;
                     updateResult(objects, newObjects, expectedResult);
