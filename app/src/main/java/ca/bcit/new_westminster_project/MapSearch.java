@@ -1,5 +1,6 @@
 package ca.bcit.new_westminster_project;
 
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.location.Location;
 import android.support.annotation.NonNull;
@@ -9,6 +10,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -66,7 +68,7 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         addingAllCircle();
     }
 
-    private void addPoint(final double latitude, final double longitude, final String title, float color) {
+    private void addPoint(final double latitude, final double longitude, final String title, Float color) {
         LatLng location = new LatLng(latitude, longitude);
         MarkerOptions marker = new MarkerOptions().position(location).title(title).icon(BitmapDescriptorFactory.defaultMarker(color));
         markers.add(marker);
@@ -102,10 +104,11 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         ArrayList<Double> markersLatitude = (ArrayList<Double>) getIntent().getSerializableExtra("markersLatitude");
         ArrayList<Double> markersLongitude = (ArrayList<Double>) getIntent().getSerializableExtra("markersLongitude");
         ArrayList<String> markersName = (ArrayList<String>) getIntent().getSerializableExtra("markersName");
-
+        ArrayList<Float> markersColour = (ArrayList<Float>) getIntent().getSerializableExtra("markersColour");
+        printColours();
         for(int i=0; i < markersLatitude.size(); ++i)
         {
-            addPoint(markersLatitude.get(i), markersLongitude.get(i), markersName.get(i), HUE_AZURE);
+            addPoint(markersLatitude.get(i), markersLongitude.get(i), markersName.get(i), markersColour.get(i));
         }
     }
 
@@ -114,10 +117,19 @@ public class MapSearch extends FragmentActivity implements OnMapReadyCallback {
         ArrayList<Double> FinalMarkersLatitude = (ArrayList<Double>) getIntent().getSerializableExtra("FinalMarkersLatitude");
         ArrayList<Double> FinalMarkersLongitude = (ArrayList<Double>) getIntent().getSerializableExtra("FinalMarkersLongitude");
         ArrayList<String> FinalMarkersName = (ArrayList<String>) getIntent().getSerializableExtra("FinalMarkersName");
+
         int listViewClickedIndex = getIntent().getIntExtra("listViewClickedIndex", 0);
 
         addPointCircle(FinalMarkersLatitude.get(listViewClickedIndex),
-                FinalMarkersLongitude.get(listViewClickedIndex), FinalMarkersName.get(listViewClickedIndex), HUE_GREEN );
+                FinalMarkersLongitude.get(listViewClickedIndex), FinalMarkersName.get(listViewClickedIndex), HUE_RED );
 
+    }
+
+    public void printColours(){
+        ArrayList<Float> markersColour = (ArrayList<Float>) getIntent().getSerializableExtra("markersColour");
+        for(int i=0; i < markersColour.size(); ++i)
+        {
+            System.out.println(markersColour.get(i));
+        }
     }
 }
