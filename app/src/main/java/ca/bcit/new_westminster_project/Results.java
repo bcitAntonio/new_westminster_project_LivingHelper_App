@@ -2,16 +2,12 @@ package ca.bcit.new_westminster_project;
 
 import android.content.Intent;
 import android.location.Location;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
-
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -19,10 +15,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import ca.bcit.new_westminster_project.data.JsonFile;
 import ca.bcit.new_westminster_project.data.JsonfileTwo;
 import ca.bcit.new_westminster_project.data.Updater;
@@ -45,6 +39,7 @@ public class Results extends AppCompatActivity {
     List<MarkerOptions> markers = new ArrayList<MarkerOptions>();
     private int actualDownloaded;
     private int expectedResult;
+    private CustomAdapter customerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,18 +149,6 @@ public class Results extends AppCompatActivity {
             });
         }
 
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loading.setVisibility(loading.GONE);
-                System.out.println(markersFinal.size() + " marker size");
-                addMarkerToObject(objects);
-                CustomAdapter customerAdapter = new CustomAdapter(getApplicationContext(), objects);
-                resultListView.setAdapter(customerAdapter);
-            }
-        }, 5000 );
-
         resultListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final Intent intent;
@@ -192,14 +175,14 @@ public class Results extends AppCompatActivity {
     }
 
 
-    private void updateResult(final List<CustomObject> objects,
-                              final List<CustomObject> newObjects,
-                              final int expected) {
-        objects.addAll(newObjects);
+    private void updateResult(final List<CustomObject> objects, final List<CustomObject> newObjects, final int expected) {
 
         if (expected == actualDownloaded) {
-            CustomAdapter customerAdapter = new CustomAdapter(getApplicationContext(), objects);
+            loading.setVisibility(loading.GONE);
+            addMarkerToObject(objects);
+            customerAdapter = new CustomAdapter(getApplicationContext(), objects);
             resultListView.setAdapter(customerAdapter);
+            System.out.println(objects.size());
         }
     }
 
@@ -244,7 +227,6 @@ public class Results extends AppCompatActivity {
             MarkerOptions marker = new MarkerOptions().position(location).title(name_);
             markers.add(marker);
         }
-        //infoTitle += name_;
     }
 
     private void parseJSONRental(final JsonObject json, float col,
