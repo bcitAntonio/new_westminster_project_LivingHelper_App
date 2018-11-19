@@ -279,13 +279,6 @@ public class Results extends AppCompatActivity {
         return null;
     }
 
-    public void map_search(final @NonNull View view) {
-        final Intent intent;
-        intent = new Intent(this, MapSearch.class);
-        startActivity(intent);
-    }
-
-
     public void setInfoTitle(String title) {
         infoTitle = title;
     }
