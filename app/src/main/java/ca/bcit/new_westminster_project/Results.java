@@ -2,12 +2,15 @@ package ca.bcit.new_westminster_project;
 
 import android.content.Intent;
 import android.location.Location;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -15,20 +18,22 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.koushikdutta.async.future.FutureCallback;
 import com.koushikdutta.ion.Ion;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import ca.bcit.new_westminster_project.data.JsonFile;
 import ca.bcit.new_westminster_project.data.JsonfileTwo;
 import ca.bcit.new_westminster_project.data.Updater;
 import pl.droidsonroids.gif.GifImageView;
 
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_AZURE;
-import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_BLUE;
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_CYAN;
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_GREEN;
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_MAGENTA;
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_ORANGE;
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_RED;
+import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_YELLOW;
 
 public class Results extends AppCompatActivity {
     private ListView resultListView;
@@ -79,34 +84,31 @@ public class Results extends AppCompatActivity {
         expectedResult = expected;
 
         //RENTAL INFORMATION << MUST DOWNLOAD >>
-        downloadData("https://drive.google.com/uc?export=download&id=17Rk22SYqjeYQB_m7o0K5Pbj6vxDLT3xW", "housing", HUE_RED,
-                new Updater() {
-                    public void update(List<CustomObject> newObjects) {
-                        actualDownloaded++;
-                        updateResult(objects, newObjects, expectedResult);
-                    }
-                });
+        downloadData("https://drive.google.com/uc?export=download&id=17Rk22SYqjeYQB_m7o0K5Pbj6vxDLT3xW", "housing", HUE_RED, new Updater() {
+            public void update(List<CustomObject> newObjects) {
+                actualDownloaded++;
+                updateResult(objects, newObjects, expectedResult);
+            }
+        });
 
         if (CheckList.busStopsBox.isChecked()) {
             setInfoTitle("Bus Stop: ");
-            downloadData("http://opendata.newwestcity.ca/downloads/bus-stops/BUS_STOPS.json", "bus", HUE_AZURE,
-                    new Updater() {
-                        public void update(List<CustomObject> newObjects) {
-                            actualDownloaded++;
-                            updateResult(objects, newObjects, expectedResult);
-                        }
-                    });
+            downloadData("http://opendata.newwestcity.ca/downloads/bus-stops/BUS_STOPS.json", "bus", HUE_AZURE, new Updater() {
+                public void update(List<CustomObject> newObjects) {
+                    actualDownloaded++;
+                    updateResult(objects, newObjects, expectedResult);
+                }
+            });
         }
 
         if (CheckList.skyTrainBox.isChecked()) {
             setInfoTitle("SkyTrain: ");
-            downloadData("http://opendata.newwestcity.ca/downloads/skytrain-stations-points/SKYTRAIN_STATIONS_PTS.json", "bus", HUE_AZURE,
-                    new Updater() {
-                        public void update(List<CustomObject> newObjects) {
-                            actualDownloaded++;
-                            updateResult(objects, newObjects, expectedResult);
-                        }
-                    });
+            downloadData("http://opendata.newwestcity.ca/downloads/skytrain-stations-points/SKYTRAIN_STATIONS_PTS.json", "bus", HUE_YELLOW, new Updater() {
+                public void update(List<CustomObject> newObjects) {
+                    actualDownloaded++;
+                    updateResult(objects, newObjects, expectedResult);
+                }
+            });
         }
 
         if (CheckList.careHomesBox.isChecked()) {
@@ -156,6 +158,7 @@ public class Results extends AppCompatActivity {
                 ArrayList<Double> markersLatitude = extractPositionFromMarkers(markers, "latitude");
                 ArrayList<Double> markersLongitude = extractPositionFromMarkers(markers, "longitude");
                 ArrayList<String> markersName = extractNameFromMarkers(markers);
+                ArrayList<Float> markersColour = extractColourFromMarkers(markers);
 
                 ArrayList<Double> FinalMarkersLatitude = extractPositionFromMarkers(markersFinal, "latitude");
                 ArrayList<Double> FinalMarkersLongitude = extractPositionFromMarkers(markersFinal, "longitude");
@@ -164,6 +167,7 @@ public class Results extends AppCompatActivity {
                 intent.putExtra("markersLatitude", markersLatitude);
                 intent.putExtra("markersLongitude", markersLongitude);
                 intent.putExtra("markersName", markersName);
+                intent.putExtra("markersColour", markersColour);
 
                 intent.putExtra("FinalMarkersLatitude", FinalMarkersLatitude);
                 intent.putExtra("FinalMarkersLongitude", FinalMarkersLongitude);
@@ -186,8 +190,7 @@ public class Results extends AppCompatActivity {
         }
     }
 
-    private void downloadData(@NonNull final String url, final String type,
-                              final float col, final Updater updater) {
+    private void downloadData(@NonNull final String url, final String type, final float col, final Updater updater) {
 
         Ion.with(this).load(url).asJsonObject().setCallback(new FutureCallback<JsonObject>() {
 
@@ -224,13 +227,12 @@ public class Results extends AppCompatActivity {
             properties = feature.getProperties();
             String name_ = find_correct_listname(properties);
             LatLng location = new LatLng(Double.parseDouble(properties.getY()), Double.parseDouble(properties.getX()));
-            MarkerOptions marker = new MarkerOptions().position(location).title(name_);
+            MarkerOptions marker = new MarkerOptions().position(location).title(name_).alpha(col);
             markers.add(marker);
         }
     }
 
-    private void parseJSONRental(final JsonObject json, float col,
-                                 final List<CustomObject> objects) {
+    private void parseJSONRental(final JsonObject json, float col, final List<CustomObject> objects) {
         final Gson gson;
         final JsonfileTwo jsonFile;
 
@@ -252,7 +254,9 @@ public class Results extends AppCompatActivity {
             for (int i = 0; i < markers.size(); i++) {
                 Location.distanceBetween(markers.get(i).getPosition().latitude, markers.get(i).getPosition().longitude, a[1], a[0], distance);
                 if (distance[0] <= circle.getRadius()) {
-                    markersFinal.add(marker);
+                    if(!markersFinal.contains(marker)) {
+                        markersFinal.add(marker);
+                    }
                 }
             }
         }
@@ -270,8 +274,7 @@ public class Results extends AppCompatActivity {
         add_list_name(list_name, p);
 
         for (String s : list_name) {
-            if (s != null)
-                return s;
+            if (s != null) return s;
         }
         return null;
     }
@@ -290,27 +293,25 @@ public class Results extends AppCompatActivity {
     public void addMarkerToObject(final List<CustomObject> objects) {
         for (int i = 0; i < markersFinal.size(); i++) {
             String radiusString = "" + getIntent().getIntExtra("radiusExtraString", 200);
-            objects.add(new CustomObject(markersFinal.get(i).getTitle(), radiusString));
+            CustomObject newCustom = new CustomObject(markersFinal.get(i).getTitle(), radiusString);
+            if (!objects.contains(newCustom)) {
+                objects.add(newCustom);
+            }
         }
     }
 
-    public ArrayList<Double> extractPositionFromMarkers(List<MarkerOptions> marker, String itemToExtract)
-    {
+    public ArrayList<Double> extractPositionFromMarkers(List<MarkerOptions> marker, String itemToExtract) {
         ArrayList<Double> arrayListDirection = new ArrayList<>();
 
-        if(itemToExtract.equals("latitude"))
-        {
-            for(int i=0; i < marker.size(); ++i)
-            {
+        if (itemToExtract.equals("latitude")) {
+            for (int i = 0; i < marker.size(); ++i) {
                 arrayListDirection.add(marker.get(i).getPosition().latitude);
             }
             return arrayListDirection;
         }
 
-        if(itemToExtract.equals("longitude"))
-        {
-            for(int i=0; i < marker.size(); ++i)
-            {
+        if (itemToExtract.equals("longitude")) {
+            for (int i = 0; i < marker.size(); ++i) {
                 arrayListDirection.add(marker.get(i).getPosition().longitude);
             }
             return arrayListDirection;
@@ -319,12 +320,18 @@ public class Results extends AppCompatActivity {
         return null;
     }
 
-    public ArrayList<String> extractNameFromMarkers(List<MarkerOptions> marker)
-    {
+    public ArrayList<String> extractNameFromMarkers(List<MarkerOptions> marker) {
         ArrayList<String> nameList = new ArrayList<>();
-        for(int i=0; i < marker.size(); ++i)
-        {
+        for (int i = 0; i < marker.size(); ++i) {
             nameList.add(marker.get(i).getTitle());
+        }
+        return nameList;
+    }
+
+    public ArrayList<Float> extractColourFromMarkers(List<MarkerOptions> marker) {
+        ArrayList<Float> nameList = new ArrayList<>();
+        for (int i = 0; i < marker.size(); ++i) {
+            nameList.add(marker.get(i).getAlpha());
         }
         return nameList;
     }
