@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CustomAdapter extends BaseAdapter {
@@ -39,7 +38,7 @@ public class CustomAdapter extends BaseAdapter {
 
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
-        if(convertView == null) {
+        if (convertView == null) {
             holder = new ViewHolder();
             convertView = inflater.inflate(R.layout.single_row_listview, null);
             holder.textView1 = (TextView) convertView.findViewById(R.id.address);
