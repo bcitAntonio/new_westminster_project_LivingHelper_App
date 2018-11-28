@@ -9,8 +9,6 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -218,7 +216,6 @@ public class Results extends AppCompatActivity {
     private void parseJSON(final JsonObject json, float col, final List<CustomObject> objects) {
         final Gson gson;
         final JsonFile jsonFile;
-        //int index = 0;
         gson = new Gson();
         jsonFile = gson.fromJson(json, JsonFile.class);
 
@@ -254,7 +251,7 @@ public class Results extends AppCompatActivity {
             for (int i = 0; i < markers.size(); i++) {
                 Location.distanceBetween(markers.get(i).getPosition().latitude, markers.get(i).getPosition().longitude, a[1], a[0], distance);
                 if (distance[0] <= circle.getRadius()) {
-                    if(!markersFinal.contains(marker)) {
+                    if (!markersFinal.contains(marker)) {
                         markersFinal.add(marker);
                     }
                 }

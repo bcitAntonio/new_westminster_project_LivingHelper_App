@@ -6,8 +6,8 @@ public class CustomObject {
     private String distance;
 
     public CustomObject(String address, String distance) {
-            this.address = address;
-            this.distance = distance;
+        this.address = address;
+        this.distance = distance;
     }
 
     public String getAddress() {
